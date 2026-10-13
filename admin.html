@@ -218,25 +218,13 @@
               <label for="roomBedConfig">Bed Configuration</label>
               <input type="text" id="roomBedConfig" placeholder="e.g. 1 King Bed">
             </div>
-            <div class="form-field-group room-size-field-group">
+            <div class="form-field-group">
               <label for="roomSizeNum">Room Size (m²)</label>
               <div class="input-with-unit">
-                <input type="number" id="roomSizeNum" placeholder="52" min="10" max="500" step="1">
+                <input type="number" id="roomSizeNum" placeholder="e.g. 52" min="10" max="500" step="1">
                 <span class="unit-suffix">m²</span>
               </div>
-              <input type="hidden" id="roomSize" name="roomSize" value="52 m² / 560 sq ft">
-              <div class="room-size-preview" id="roomSizePreview">
-                <span class="preview-label">Live Display:</span>
-                <span class="preview-val" id="roomSizePreviewText">52 m² / 560 sq ft</span>
-              </div>
-              <div class="room-size-presets-bar">
-                <span class="presets-hint">Presets:</span>
-                <button type="button" class="preset-size-chip" data-size="38">38 m²</button>
-                <button type="button" class="preset-size-chip" data-size="48">48 m²</button>
-                <button type="button" class="preset-size-chip" data-size="56">56 m²</button>
-                <button type="button" class="preset-size-chip" data-size="68">68 m²</button>
-                <button type="button" class="preset-size-chip" data-size="95">95 m²</button>
-              </div>
+              <input type="hidden" id="roomSize" name="roomSize" value="52 m²">
             </div>
             <div class="form-field-group">
               <label for="roomView">View</label>
@@ -274,100 +262,57 @@
             </div>
           </div>
 
-          <!-- Amenities Selection -->
+          <!-- Key Amenities Modern Drag & Drop Interface -->
           <div class="form-field-group">
-            <label>Key Amenities &amp; Highlights</label>
-            <div class="amenity-checkbox-grid">
-              <label class="amenity-check-card">
-                <input type="checkbox" name="roomAmenities" value="Courtyard garden view">
-                <span class="custom-checkbox-indicator">
-                  <svg class="check-icon" viewBox="0 0 16 16" fill="none">
-                    <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </span>
-                <span class="amenity-name">Courtyard garden view</span>
-              </label>
-              <label class="amenity-check-card">
-                <input type="checkbox" name="roomAmenities" value="Walk-in rain shower">
-                <span class="custom-checkbox-indicator">
-                  <svg class="check-icon" viewBox="0 0 16 16" fill="none">
-                    <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </span>
-                <span class="amenity-name">Walk-in rain shower</span>
-              </label>
-              <label class="amenity-check-card">
-                <input type="checkbox" name="roomAmenities" value="Private outdoor terrace">
-                <span class="custom-checkbox-indicator">
-                  <svg class="check-icon" viewBox="0 0 16 16" fill="none">
-                    <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </span>
-                <span class="amenity-name">Private outdoor terrace</span>
-              </label>
-              <label class="amenity-check-card">
-                <input type="checkbox" name="roomAmenities" value="Deep soaking marble tub">
-                <span class="custom-checkbox-indicator">
-                  <svg class="check-icon" viewBox="0 0 16 16" fill="none">
-                    <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </span>
-                <span class="amenity-name">Deep soaking marble tub</span>
-              </label>
-              <label class="amenity-check-card">
-                <input type="checkbox" name="roomAmenities" value="Complimentary daily breakfast">
-                <span class="custom-checkbox-indicator">
-                  <svg class="check-icon" viewBox="0 0 16 16" fill="none">
-                    <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </span>
-                <span class="amenity-name">Complimentary breakfast</span>
-              </label>
-              <label class="amenity-check-card">
-                <input type="checkbox" name="roomAmenities" value="Nespresso coffee bar">
-                <span class="custom-checkbox-indicator">
-                  <svg class="check-icon" viewBox="0 0 16 16" fill="none">
-                    <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </span>
-                <span class="amenity-name">Nespresso coffee bar</span>
-              </label>
-              <label class="amenity-check-card">
-                <input type="checkbox" name="roomAmenities" value="Complimentary Wi-Fi">
-                <span class="custom-checkbox-indicator">
-                  <svg class="check-icon" viewBox="0 0 16 16" fill="none">
-                    <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </span>
-                <span class="amenity-name">Complimentary Wi-Fi</span>
-              </label>
-              <label class="amenity-check-card">
-                <input type="checkbox" name="roomAmenities" value="Dedicated butler assistance">
-                <span class="custom-checkbox-indicator">
-                  <svg class="check-icon" viewBox="0 0 16 16" fill="none">
-                    <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </span>
-                <span class="amenity-name">Dedicated butler</span>
-              </label>
-              <label class="amenity-check-card">
-                <input type="checkbox" name="roomAmenities" value="VIP airport luxury transfer">
-                <span class="custom-checkbox-indicator">
-                  <svg class="check-icon" viewBox="0 0 16 16" fill="none">
-                    <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </span>
-                <span class="amenity-name">VIP airport transfer</span>
-              </label>
-              <label class="amenity-check-card">
-                <input type="checkbox" name="roomAmenities" value="Evening turndown service">
-                <span class="custom-checkbox-indicator">
-                  <svg class="check-icon" viewBox="0 0 16 16" fill="none">
-                    <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </span>
-                <span class="amenity-name">Evening turndown</span>
-              </label>
+            <div class="amenities-dnd-header">
+              <label class="dnd-label-heading">Key Amenities &amp; Highlights</label>
+              <span class="dnd-label-subtitle">Drag &amp; drop to assign to this suite or tap <strong style="color:var(--ca-gold);">+</strong> / <strong style="color:var(--ca-gold);">×</strong></span>
+            </div>
+
+            <div class="amenities-dnd-container">
+              <!-- Available Amenities Pool -->
+              <div class="dnd-column dnd-column-available">
+                <div class="dnd-column-header">
+                  <div class="dnd-column-title-wrap">
+                    <span class="dnd-col-icon">📋</span>
+                    <span class="dnd-col-name">Available Amenities</span>
+                  </div>
+                  <span class="dnd-count-pill" id="availableCount">0</span>
+                </div>
+                <div class="dnd-dropzone" id="availableDropzone" data-zone="available" aria-label="Available amenities pool">
+                  <!-- Draggable items rendered by js/admin.js -->
+                </div>
+              </div>
+
+              <!-- Interactive Drag Direction Divider -->
+              <div class="dnd-transfer-indicator">
+                <span class="dnd-swap-badge" title="Drag to transfer">⇄</span>
+              </div>
+
+              <!-- Assigned Suite Highlights Dropzone -->
+              <div class="dnd-column dnd-column-selected">
+                <div class="dnd-column-header">
+                  <div class="dnd-column-title-wrap">
+                    <span class="dnd-col-icon">⭐</span>
+                    <span class="dnd-col-name">Assigned to Suite</span>
+                  </div>
+                  <span class="dnd-count-pill dnd-active-count" id="selectedCount">0</span>
+                </div>
+                <div class="dnd-dropzone dnd-selected-zone" id="selectedDropzone" data-zone="selected" aria-label="Assigned suite amenities">
+                  <!-- Dropzone items rendered by js/admin.js -->
+                  <div class="dnd-empty-state" id="dndEmptyState">
+                    <span class="empty-sparkle">✨</span>
+                    <span class="empty-headline">Drop Suite Amenities Here</span>
+                    <span class="empty-subline">Drag items from Available list or click "+"</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Custom Amenity Quick Adder -->
+            <div class="dnd-custom-adder">
+              <input type="text" id="customAmenityInput" placeholder="Add custom amenity (e.g. Private plunge pool)...">
+              <button type="button" id="btnAddCustomAmenity" class="btn-add-amenity">+ Add to Available</button>
             </div>
           </div>
 
