@@ -449,15 +449,21 @@
 .room-featured-tag {
   display: inline-flex;
   align-items: center;
+  gap: 0.32rem;
   font-size: 0.7rem;
   font-weight: 700;
   color: #8A6D3B;
   background: rgba(181, 154, 114, 0.16);
   border: 1px solid rgba(181, 154, 114, 0.35);
-  padding: 0.15rem 0.5rem;
+  padding: 0.15rem 0.55rem;
   border-radius: 999px;
   width: fit-content;
   letter-spacing: 0.02em;
+}
+
+.room-featured-tag svg {
+  color: #8A6D3B;
+  flex-shrink: 0;
 }
 
 .admin-room-rate-block {
@@ -515,8 +521,19 @@
 }
 
 .matrix-icon {
-  font-size: 0.95rem;
-  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  color: var(--ca-gold);
+  flex-shrink: 0;
+}
+
+.matrix-icon svg {
+  width: 14px;
+  height: 14px;
+  stroke: var(--ca-gold);
   flex-shrink: 0;
 }
 
@@ -644,6 +661,10 @@
   text-overflow: ellipsis;
   transition: all 0.2s ease;
   font-family: var(--font-sans);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.38rem;
 }
 
 .btn-card-secondary:hover {
@@ -671,6 +692,16 @@
   white-space: nowrap;
   transition: all 0.2s ease;
   font-family: var(--font-sans);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.38rem;
+}
+
+.btn-card-primary svg,
+.btn-card-secondary svg,
+.btn-card-danger svg {
+  flex-shrink: 0;
 }
 
 .btn-card-danger:hover {

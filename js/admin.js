@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="admin-room-header">
               <div class="admin-room-title-block">
                 <h3 class="admin-room-name">${room.name}</h3>
-                ${room.featured ? '<span class="room-featured-tag">⭐ Featured on Home</span>' : ''}
+                ${room.featured ? '<span class="room-featured-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Featured on Home</span>' : ''}
               </div>
               <div class="admin-room-rate-block">
                 <span class="rate-amount">₱${Number(room.rate_per_night).toLocaleString()}</span>
@@ -221,19 +221,27 @@ document.addEventListener('DOMContentLoaded', () => {
             <!-- Organized 2x2 Specs Matrix -->
             <div class="admin-room-specs-matrix">
               <div class="spec-matrix-cell" title="Maximum Capacity">
-                <span class="matrix-icon">👥</span>
+                <span class="matrix-icon">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                </span>
                 <span class="matrix-text">Up to ${room.max_guests} Guests</span>
               </div>
               <div class="spec-matrix-cell" title="Bed Configuration">
-                <span class="matrix-icon">🛏</span>
+                <span class="matrix-icon">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4v16"></path><path d="M2 8h18a2 2 0 0 1 2 2v10"></path><path d="M2 17h20"></path><path d="M6 8v9"></path></svg>
+                </span>
                 <span class="matrix-text">${room.bed_config || '1 King Bed'}</span>
               </div>
               <div class="spec-matrix-cell" title="Room Dimensions">
-                <span class="matrix-icon">📐</span>
+                <span class="matrix-icon">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18"></path><path d="M9 21V9"></path></svg>
+                </span>
                 <span class="matrix-text">${cleanSize}</span>
               </div>
               <div class="spec-matrix-cell" title="Room View">
-                <span class="matrix-icon">🌿</span>
+                <span class="matrix-icon">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 4 13V9a7 7 0 0 1 7-7 7 7 0 0 1 7 7v4a7 7 0 0 1-7 7z"></path><path d="M11 20v-9"></path></svg>
+                </span>
                 <span class="matrix-text">${room.view || 'Courtyard View'}</span>
               </div>
             </div>
@@ -256,14 +264,18 @@ document.addEventListener('DOMContentLoaded', () => {
             <!-- Organized 2-Tier Actions (Prevents Awkward Text Wrapping) -->
             <div class="admin-room-actions-organized">
               <button class="btn-card-primary" onclick="window.editRoom('${room.id}')">
-                ✏ Edit Room Details
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                <span>Edit Room Details</span>
               </button>
               <div class="admin-room-actions-row">
                 <button class="btn-card-secondary ${isMaint ? 'is-in-maintenance' : ''}" onclick="window.toggleRoomStatus('${room.id}')">
-                  ${isAvail ? '⏸ Set Maintenance' : '✓ Set Available'}
+                  ${isAvail 
+                    ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg><span>Set Maintenance</span>' 
+                    : '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Set Available</span>'}
                 </button>
                 <button class="btn-card-danger" onclick="window.deleteRoom('${room.id}', '${room.name}')">
-                  🗑 Unpublish
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                  <span>Unpublish</span>
                 </button>
               </div>
             </div>

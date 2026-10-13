@@ -164,9 +164,15 @@ document.addEventListener('DOMContentLoaded', () => {
                   <div class="room-price">₱${Number(room.rate_per_night).toLocaleString()} <span>/ night</span></div>
                 </div>
                 <div class="room-meta">
-                  <span>👥 Up to ${room.max_guests} guests</span>
-                  <span>·</span>
-                  <span>🛏️ ${room.bed_config || '1 king bed'}</span>
+                  <span class="room-meta-item">
+                    <svg class="meta-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    Up to ${room.max_guests} guests
+                  </span>
+                  <span class="room-meta-sep">·</span>
+                  <span class="room-meta-item">
+                    <svg class="meta-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 4v16"></path><path d="M2 8h18a2 2 0 0 1 2 2v10"></path><path d="M2 17h20"></path><path d="M6 8v9"></path></svg>
+                    ${room.bed_config || '1 king bed'}
+                  </span>
                 </div>
                 <p class="room-desc">
                   ${room.tagline || 'A serene boutique retreat with tailored luxury amenities.'}
@@ -351,7 +357,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (modalDesc) modalDesc.textContent = room.desc;
     if (modalSpecs) modalSpecs.textContent = room.specs;
     if (modalFeatures) {
-      modalFeatures.innerHTML = room.features.map(f => `<span>✓ ${f}</span>`).join('');
+      modalFeatures.innerHTML = room.features.map(f => `<span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> ${f}</span>`).join('');
     }
     if (modalPrice) modalPrice.textContent = room.price;
     if (modalBookBtn) {
