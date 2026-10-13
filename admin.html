@@ -262,57 +262,100 @@
             </div>
           </div>
 
-          <!-- Key Amenities Modern Drag & Drop Interface -->
+          <!-- Key Amenities & Highlights Checklist -->
           <div class="form-field-group">
-            <div class="amenities-dnd-header">
-              <label class="dnd-label-heading">Key Amenities &amp; Highlights</label>
-              <span class="dnd-label-subtitle">Drag &amp; drop to assign to this suite or tap <strong style="color:var(--ca-gold);">+</strong> / <strong style="color:var(--ca-gold);">×</strong></span>
-            </div>
-
-            <div class="amenities-dnd-container">
-              <!-- Available Amenities Pool -->
-              <div class="dnd-column dnd-column-available">
-                <div class="dnd-column-header">
-                  <div class="dnd-column-title-wrap">
-                    <span class="dnd-col-icon">📋</span>
-                    <span class="dnd-col-name">Available Amenities</span>
-                  </div>
-                  <span class="dnd-count-pill" id="availableCount">0</span>
-                </div>
-                <div class="dnd-dropzone" id="availableDropzone" data-zone="available" aria-label="Available amenities pool">
-                  <!-- Draggable items rendered by js/admin.js -->
-                </div>
-              </div>
-
-              <!-- Interactive Drag Direction Divider -->
-              <div class="dnd-transfer-indicator">
-                <span class="dnd-swap-badge" title="Drag to transfer">⇄</span>
-              </div>
-
-              <!-- Assigned Suite Highlights Dropzone -->
-              <div class="dnd-column dnd-column-selected">
-                <div class="dnd-column-header">
-                  <div class="dnd-column-title-wrap">
-                    <span class="dnd-col-icon">⭐</span>
-                    <span class="dnd-col-name">Assigned to Suite</span>
-                  </div>
-                  <span class="dnd-count-pill dnd-active-count" id="selectedCount">0</span>
-                </div>
-                <div class="dnd-dropzone dnd-selected-zone" id="selectedDropzone" data-zone="selected" aria-label="Assigned suite amenities">
-                  <!-- Dropzone items rendered by js/admin.js -->
-                  <div class="dnd-empty-state" id="dndEmptyState">
-                    <span class="empty-sparkle">✨</span>
-                    <span class="empty-headline">Drop Suite Amenities Here</span>
-                    <span class="empty-subline">Drag items from Available list or click "+"</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Custom Amenity Quick Adder -->
-            <div class="dnd-custom-adder">
-              <input type="text" id="customAmenityInput" placeholder="Add custom amenity (e.g. Private plunge pool)...">
-              <button type="button" id="btnAddCustomAmenity" class="btn-add-amenity">+ Add to Available</button>
+            <label>Key Amenities &amp; Highlights</label>
+            <div class="amenity-checkbox-grid">
+              <label class="amenity-check-card">
+                <input type="checkbox" name="roomAmenities" value="Courtyard garden view">
+                <span class="custom-checkbox-indicator">
+                  <svg class="check-icon" viewBox="0 0 16 16" fill="none">
+                    <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span class="amenity-name">Courtyard garden view</span>
+              </label>
+              <label class="amenity-check-card">
+                <input type="checkbox" name="roomAmenities" value="Walk-in rain shower">
+                <span class="custom-checkbox-indicator">
+                  <svg class="check-icon" viewBox="0 0 16 16" fill="none">
+                    <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span class="amenity-name">Walk-in rain shower</span>
+              </label>
+              <label class="amenity-check-card">
+                <input type="checkbox" name="roomAmenities" value="Private outdoor terrace">
+                <span class="custom-checkbox-indicator">
+                  <svg class="check-icon" viewBox="0 0 16 16" fill="none">
+                    <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span class="amenity-name">Private outdoor terrace</span>
+              </label>
+              <label class="amenity-check-card">
+                <input type="checkbox" name="roomAmenities" value="Deep soaking marble tub">
+                <span class="custom-checkbox-indicator">
+                  <svg class="check-icon" viewBox="0 0 16 16" fill="none">
+                    <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span class="amenity-name">Deep soaking marble tub</span>
+              </label>
+              <label class="amenity-check-card">
+                <input type="checkbox" name="roomAmenities" value="Complimentary daily breakfast">
+                <span class="custom-checkbox-indicator">
+                  <svg class="check-icon" viewBox="0 0 16 16" fill="none">
+                    <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span class="amenity-name">Complimentary breakfast</span>
+              </label>
+              <label class="amenity-check-card">
+                <input type="checkbox" name="roomAmenities" value="Nespresso coffee bar">
+                <span class="custom-checkbox-indicator">
+                  <svg class="check-icon" viewBox="0 0 16 16" fill="none">
+                    <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span class="amenity-name">Nespresso coffee bar</span>
+              </label>
+              <label class="amenity-check-card">
+                <input type="checkbox" name="roomAmenities" value="Complimentary Wi-Fi">
+                <span class="custom-checkbox-indicator">
+                  <svg class="check-icon" viewBox="0 0 16 16" fill="none">
+                    <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span class="amenity-name">Complimentary Wi-Fi</span>
+              </label>
+              <label class="amenity-check-card">
+                <input type="checkbox" name="roomAmenities" value="Dedicated butler assistance">
+                <span class="custom-checkbox-indicator">
+                  <svg class="check-icon" viewBox="0 0 16 16" fill="none">
+                    <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span class="amenity-name">Dedicated butler</span>
+              </label>
+              <label class="amenity-check-card">
+                <input type="checkbox" name="roomAmenities" value="VIP airport luxury transfer">
+                <span class="custom-checkbox-indicator">
+                  <svg class="check-icon" viewBox="0 0 16 16" fill="none">
+                    <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span class="amenity-name">VIP airport transfer</span>
+              </label>
+              <label class="amenity-check-card">
+                <input type="checkbox" name="roomAmenities" value="Evening turndown service">
+                <span class="custom-checkbox-indicator">
+                  <svg class="check-icon" viewBox="0 0 16 16" fill="none">
+                    <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span class="amenity-name">Evening turndown</span>
+              </label>
             </div>
           </div>
 

@@ -304,8 +304,12 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('roomFeatured').checked = !!room.featured;
     document.getElementById('roomImage').value = room.image || 'assets/images/deluxe-room.svg';
 
-    // Set amenities via modern Drag and Drop
-    renderAmenitiesDnd(room.amenities || []);
+    // Set amenities
+    const checkBoxes = document.querySelectorAll('input[name="roomAmenities"]');
+    checkBoxes.forEach(cb => {
+      cb.checked = (room.amenities || []).includes(cb.value);
+    });
+    syncCheckboxCards();
 
     roomModalBackdrop.classList.add('active');
   };
@@ -380,12 +384,16 @@ document.addEventListener('DOMContentLoaded', () => {
         roomSizeNum.value = '52';
         updateRoomSizeFromNum('52');
       }
-      renderAmenitiesDnd([
+      const defaultAmenities = [
         "Courtyard garden view",
         "Walk-in rain shower",
         "Complimentary Wi-Fi",
         "Complimentary daily breakfast"
-      ]);
+      ];
+      document.querySelectorAll('input[name="roomAmenities"]').forEach(cb => {
+        cb.checked = defaultAmenities.includes(cb.value);
+      });
+      syncCheckboxCards();
       roomModalBackdrop.classList.add('active');
     });
   }
@@ -403,8 +411,8 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
 
       const selectedAmenities = [];
-      document.querySelectorAll('#selectedDropzone .amenity-dnd-pill').forEach(pill => {
-        selectedAmenities.push(pill.dataset.amenity);
+      document.querySelectorAll('input[name="roomAmenities"]:checked').forEach(cb => {
+        selectedAmenities.push(cb.value);
       });
 
       const payload = {
@@ -486,274 +494,28 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- Modern Drag & Drop Amenities System ---
-  const MASTER_AMENITIES = [
-    "Courtyard garden view",
-    "Walk-in rain shower",
-    "Private outdoor terrace",
-    "Deep soaking marble tub",
-    "Complimentary daily breakfast",
-    "Nespresso coffee bar",
-    "Complimentary Wi-Fi",
-    "Dedicated butler assistance",
-    "VIP airport luxury transfer",
-    "Evening turndown service"
-  ];
-
-  let draggedPill = null;
-
-  function updateDndCounts() {
-    const availZone = document.getElementById('availableDropzone');
-    const selectZone = document.getElementById('selectedDropzone');
-    const availCount = document.getElementById('availableCount');
-    const selectCount = document.getElementById('selectedCount');
-    const emptyState = document.getElementById('dndEmptyState');
-
-    const availPills = availZone ? availZone.querySelectorAll('.amenity-dnd-pill') : [];
-    const selectPills = selectZone ? selectZone.querySelectorAll('.amenity-dnd-pill') : [];
-
-    if (availCount) availCount.textContent = availPills.length;
-    if (selectCount) selectCount.textContent = selectPills.length;
-
-    if (emptyState) {
-      emptyState.style.display = selectPills.length === 0 ? 'flex' : 'none';
-    }
-  }
-
-  function createAmenityPill(name, zone) {
-    const pill = document.createElement('div');
-    pill.className = 'amenity-dnd-pill';
-    pill.draggable = true;
-    pill.dataset.amenity = name;
-
-    const isAvailable = zone === 'available';
-
-    pill.innerHTML = `
-      <div class="dnd-pill-left">
-        <span class="dnd-handle" title="Drag to transfer or reorder">
-          <svg width="8" height="12" viewBox="0 0 8 12" fill="currentColor">
-            <circle cx="2" cy="2" r="1.3"/>
-            <circle cx="6" cy="2" r="1.3"/>
-            <circle cx="2" cy="6" r="1.3"/>
-            <circle cx="6" cy="6" r="1.3"/>
-            <circle cx="2" cy="10" r="1.3"/>
-            <circle cx="6" cy="10" r="1.3"/>
-          </svg>
-        </span>
-        <span class="amenity-pill-text">${name}</span>
-      </div>
-      <button type="button" class="pill-action-btn ${isAvailable ? 'btn-add-pill' : 'btn-remove-pill'}" title="${isAvailable ? 'Assign to room' : 'Remove from room'}">
-        ${isAvailable ? '+' : '&times;'}
-      </button>
-    `;
-
-    // Drag events on pill
-    pill.addEventListener('dragstart', (e) => {
-      draggedPill = pill;
-      e.dataTransfer.setData('text/plain', name);
-      e.dataTransfer.effectAllowed = 'move';
-      setTimeout(() => {
-        pill.classList.add('is-dragging');
-      }, 0);
-    });
-
-    pill.addEventListener('dragend', () => {
-      pill.classList.remove('is-dragging');
-      draggedPill = null;
-      document.querySelectorAll('.dnd-dropzone').forEach(dz => dz.classList.remove('drag-over'));
-    });
-
-    // Tap/Click Action Button
-    const actionBtn = pill.querySelector('.pill-action-btn');
-    actionBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const currentParent = pill.parentElement;
-      const availZone = document.getElementById('availableDropzone');
-      const selectZone = document.getElementById('selectedDropzone');
-
-      if (currentParent === availZone && selectZone) {
-        transferPillToZone(pill, selectZone, 'selected');
-      } else if (currentParent === selectZone && availZone) {
-        transferPillToZone(pill, availZone, 'available');
-      }
-    });
-
-    return pill;
-  }
-
-  function transferPillToZone(pill, targetZone, targetZoneType) {
-    const isAvail = targetZoneType === 'available';
-    const actionBtn = pill.querySelector('.pill-action-btn');
-
-    if (actionBtn) {
-      actionBtn.className = `pill-action-btn ${isAvail ? 'btn-add-pill' : 'btn-remove-pill'}`;
-      actionBtn.title = isAvail ? 'Assign to room' : 'Remove from room';
-      actionBtn.innerHTML = isAvail ? '+' : '&times;';
-    }
-
-    pill.classList.remove('pill-dropped-anim');
-    void pill.offsetWidth;
-    pill.classList.add('pill-dropped-anim');
-
-    targetZone.appendChild(pill);
-    updateDndCounts();
-
-    setTimeout(() => {
-      pill.classList.remove('pill-dropped-anim');
-    }, 400);
-  }
-
-  function setupDropzone(dropzone, zoneType) {
-    if (!dropzone) return;
-
-    dropzone.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      e.dataTransfer.dropEffect = 'move';
-      dropzone.classList.add('drag-over');
-
-      if (draggedPill && dropzone.id === 'selectedDropzone') {
-        const afterElement = getDragAfterElement(dropzone, e.clientY);
-        const emptyState = document.getElementById('dndEmptyState');
-        if (afterElement == null) {
-          dropzone.appendChild(draggedPill);
-        } else if (afterElement !== emptyState) {
-          dropzone.insertBefore(draggedPill, afterElement);
+  // --- Luxury Checkbox Card Synchronization ---
+  function syncCheckboxCards() {
+    document.querySelectorAll('.amenity-check-card').forEach(card => {
+      const cb = card.querySelector('input[type="checkbox"]');
+      if (cb) {
+        if (cb.checked) {
+          card.classList.add('is-checked');
+        } else {
+          card.classList.remove('is-checked');
         }
       }
     });
-
-    dropzone.addEventListener('dragleave', (e) => {
-      if (!dropzone.contains(e.relatedTarget)) {
-        dropzone.classList.remove('drag-over');
-      }
-    });
-
-    dropzone.addEventListener('drop', (e) => {
-      e.preventDefault();
-      dropzone.classList.remove('drag-over');
-      if (!draggedPill) return;
-
-      const isAvail = zoneType === 'available';
-      const actionBtn = draggedPill.querySelector('.pill-action-btn');
-
-      if (actionBtn) {
-        actionBtn.className = `pill-action-btn ${isAvail ? 'btn-add-pill' : 'btn-remove-pill'}`;
-        actionBtn.title = isAvail ? 'Assign to room' : 'Remove from room';
-        actionBtn.innerHTML = isAvail ? '+' : '&times;';
-      }
-
-      draggedPill.classList.remove('pill-dropped-anim');
-      void draggedPill.offsetWidth;
-      draggedPill.classList.add('pill-dropped-anim');
-
-      dropzone.appendChild(draggedPill);
-      updateDndCounts();
-
-      setTimeout(() => {
-        if (draggedPill) draggedPill.classList.remove('pill-dropped-anim');
-      }, 400);
-    });
   }
 
-  function getDragAfterElement(container, y) {
-    const draggableElements = [...container.querySelectorAll('.amenity-dnd-pill:not(.is-dragging)')];
-
-    return draggableElements.reduce((closest, child) => {
-      const box = child.getBoundingClientRect();
-      const offset = y - box.top - box.height / 2;
-      if (offset < 0 && offset > closest.offset) {
-        return { offset: offset, element: child };
-      } else {
-        return closest;
-      }
-    }, { offset: Number.NEGATIVE_INFINITY }).element;
-  }
-
-  function renderAmenitiesDnd(selectedList = []) {
-    const availZone = document.getElementById('availableDropzone');
-    const selectZone = document.getElementById('selectedDropzone');
-    if (!availZone || !selectZone) return;
-
-    // Clear existing pills
-    availZone.querySelectorAll('.amenity-dnd-pill').forEach(el => el.remove());
-    selectZone.querySelectorAll('.amenity-dnd-pill').forEach(el => el.remove());
-
-    const activeSet = new Set(selectedList);
-
-    // Populate active/selected items
-    selectedList.forEach(amenity => {
-      if (amenity && amenity.trim()) {
-        const pill = createAmenityPill(amenity.trim(), 'selected');
-        selectZone.appendChild(pill);
-      }
-    });
-
-    // Populate available master amenities not already in selected
-    MASTER_AMENITIES.forEach(amenity => {
-      if (!activeSet.has(amenity)) {
-        const pill = createAmenityPill(amenity, 'available');
-        availZone.appendChild(pill);
-      }
-    });
-
-    updateDndCounts();
-  }
-
-  // Set up dropzones once
-  const availZone = document.getElementById('availableDropzone');
-  const selectZone = document.getElementById('selectedDropzone');
-  if (availZone) setupDropzone(availZone, 'available');
-  if (selectZone) setupDropzone(selectZone, 'selected');
-
-  // Custom Amenity Adder
-  const btnAddCustomAmenity = document.getElementById('btnAddCustomAmenity');
-  const customAmenityInput = document.getElementById('customAmenityInput');
-
-  function addCustomAmenity() {
-    if (!customAmenityInput) return;
-    const val = customAmenityInput.value.trim();
-    if (!val) return;
-
-    const selectZone = document.getElementById('selectedDropzone');
-    const existing = Array.from(document.querySelectorAll('.amenity-dnd-pill'))
-      .map(p => p.dataset.amenity.toLowerCase());
-
-    if (existing.includes(val.toLowerCase())) {
-      showToast(`"${val}" already exists in amenities!`);
-      customAmenityInput.value = '';
-      return;
-    }
-
-    if (selectZone) {
-      const pill = createAmenityPill(val, 'selected');
-      pill.classList.add('pill-dropped-anim');
-      selectZone.appendChild(pill);
-      updateDndCounts();
-      customAmenityInput.value = '';
-      showToast(`Added "${val}" to suite amenities`);
-      setTimeout(() => pill.classList.remove('pill-dropped-anim'), 400);
-    }
-  }
-
-  if (btnAddCustomAmenity) btnAddCustomAmenity.addEventListener('click', addCustomAmenity);
-  if (customAmenityInput) {
-    customAmenityInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        addCustomAmenity();
-      }
-    });
-  }
+  document.querySelectorAll('.amenity-check-card input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', syncCheckboxCards);
+  });
 
   // Init
   checkAuth();
   if (roomSizeNum && roomSizeNum.value) {
     updateRoomSizeFromNum(roomSizeNum.value);
   }
-  renderAmenitiesDnd([
-    "Courtyard garden view",
-    "Walk-in rain shower",
-    "Complimentary Wi-Fi",
-    "Complimentary daily breakfast"
-  ]);
+  syncCheckboxCards();
 });
