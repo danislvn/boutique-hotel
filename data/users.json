@@ -1,0 +1,12 @@
+{
+  "admin": {
+    "role": "Hotel Manager",
+    "full_name": "Front Desk Manager",
+    "password_hash": "290698401e58d12f22e8a4107f4e77c0240f5d306d991d5a7b39f010a968b168"
+  },
+  "staff": {
+    "role": "Receptionist",
+    "full_name": "Concierge Staff",
+    "password_hash": "290698401e58d12f22e8a4107f4e77c0240f5d306d991d5a7b39f010a968b168"
+  }
+}

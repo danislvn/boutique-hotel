@@ -1,0 +1,62 @@
+[
+  {
+    "reference_id": "CA-6COZNS-5OJ",
+    "guest_name": "John Doe",
+    "email": "guest@example.com",
+    "phone": "+63 917 123 4567",
+    "room_type_id": "deluxe",
+    "room_name": "Deluxe Room",
+    "check_in": "10/27/2026",
+    "check_out": "10/30/2026",
+    "nights": 3,
+    "guests": 2,
+    "total_amount": 27552.0,
+    "payment_status": "Deposit paid",
+    "special_requests": "High floor garden view requested."
+  },
+  {
+    "reference_id": "CA-7EX49A-12B",
+    "guest_name": "Maria Santos",
+    "email": "maria.santos@gmail.com",
+    "phone": "+63 918 555 8821",
+    "room_type_id": "executive",
+    "room_name": "Executive Room",
+    "check_in": "11/02/2026",
+    "check_out": "11/05/2026",
+    "nights": 3,
+    "guests": 2,
+    "total_amount": 38640.0,
+    "payment_status": "Deposit paid",
+    "special_requests": "Late arrival around 8:00 PM."
+  },
+  {
+    "reference_id": "CA-8FAM88-99K",
+    "guest_name": "Alexander Tan",
+    "email": "alex.tan@yahoo.com",
+    "phone": "+63 920 334 1122",
+    "room_type_id": "family",
+    "room_name": "Family Room",
+    "check_in": "11/10/2026",
+    "check_out": "11/14/2026",
+    "nights": 4,
+    "guests": 4,
+    "total_amount": 43904.0,
+    "payment_status": "Pay at hotel",
+    "special_requests": "Need extra pillows and baby cot."
+  },
+  {
+    "reference_id": "CA-9SUITE-77M",
+    "guest_name": "Isabella Rossi",
+    "email": "i.rossi@luxury.it",
+    "phone": "+39 02 8841 9921",
+    "room_type_id": "premium",
+    "room_name": "Premium Suite",
+    "check_in": "12/20/2026",
+    "check_out": "12/26/2026",
+    "nights": 6,
+    "guests": 2,
+    "total_amount": 97440.0,
+    "payment_status": "Deposit paid",
+    "special_requests": "Honeymoon arrangement with champagne."
+  }
+]

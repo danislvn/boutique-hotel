@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Casa Amara | Hotel Admin &amp; Room Inventory Publishing Portal</title>
+  <meta name="description" content="Casa Amara Boutique Hotel Management &amp; Room Publishing System. Manage inventory, nightly rates, amenities, and guest reservations.">
+  
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body">
+
+  <!-- =========================================================================
+       1. Staff Authentication Overlay (Security Gate)
+       ========================================================================= -->
+  <div class="admin-login-overlay" id="loginOverlay">
+    <div class="admin-login-card">
+      <div class="admin-login-logo">CA</div>
+      <h2 class="admin-login-title">Staff Portal</h2>
+      <p class="admin-login-subtitle">Casa Amara Boutique Hotel Property Management</p>
+
+      <form id="loginForm">
+        <div class="form-field-group" style="text-align: left;">
+          <label for="loginUsername">Staff Username</label>
+          <input type="text" id="loginUsername" placeholder="e.g. admin" required autocomplete="username">
+        </div>
+        <div class="form-field-group" style="text-align: left;">
+          <label for="loginPassword">Security Password</label>
+          <input type="password" id="loginPassword" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+        <div id="loginError" style="display: none; color: #E53E3E; font-size: 0.85rem; margin-bottom: 1rem; text-align: left;"></div>
+        <button type="submit" class="btn-login-submit">Sign In to Dashboard</button>
+      </form>
+
+      
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       2. Admin Navbar
+       ========================================================================= -->
+  <header class="admin-navbar">
+    <div class="admin-nav-inner">
+      <div class="admin-nav-left">
+        <a href="index.html" class="admin-logo-link">
+          <div class="logo-circle" style="width: 36px; height: 36px; font-size: 0.95rem;">CA</div>
+          <div class="logo-text">
+            <span class="logo-title" style="font-size: 1.15rem; color: #fff;">Casa Amara</span>
+            <span class="logo-subtitle" style="font-size: 0.6rem; color: var(--ca-gold);">MANAGEMENT PORTAL</span>
+          </div>
+        </a>
+        <span class="admin-badge-portal">PMS &bull; Channel Manager</span>
+      </div>
+
+      <div class="admin-nav-right">
+        <div class="admin-user-pill" id="userPill">
+          <span class="admin-user-dot"></span>
+          <span id="userNameDisplay">Manager</span>
+        </div>
+        <a href="rooms.html" target="_blank" class="btn-nav-action">View Live Catalog ↗</a>
+        <a href="booking.html" target="_blank" class="btn-nav-action">Booking Flow ↗</a>
+        <button type="button" class="btn-nav-action" id="btnSignOut">Sign Out</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       3. Main Dashboard Body
+       ========================================================================= -->
+  <main class="admin-main">
+    <!-- Header Title & Action Row -->
+    <div class="admin-header-row">
+      <div class="admin-title-area">
+        <h1>Room Inventory &amp; Publishing</h1>
+        <p>Post new luxury rooms, adjust nightly rates, manage unit availability, and oversee guest bookings.</p>
+      </div>
+      <div class="admin-actions-area">
+        <button type="button" class="btn-post-room" id="btnOpenPostModal">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          Post / Publish New Room
+        </button>
+      </div>
+    </div>
+
+    <!-- KPI Performance Cards -->
+    <section class="admin-kpi-grid">
+      <div class="admin-kpi-card">
+        <div class="kpi-label">Room Categories</div>
+        <div class="kpi-value" id="kpiTotalRooms">4</div>
+        <div class="kpi-subtext">Active room types published</div>
+      </div>
+      <div class="admin-kpi-card">
+        <div class="kpi-label">Available Units</div>
+        <div class="kpi-value" id="kpiAvailableUnits">15</div>
+        <div class="kpi-subtext">Ready for immediate check-in</div>
+      </div>
+      <div class="admin-kpi-card">
+        <div class="kpi-label">Under Maintenance</div>
+        <div class="kpi-value" id="kpiMaintenanceRooms">0</div>
+        <div class="kpi-subtext">Temporarily off-market</div>
+      </div>
+      <div class="admin-kpi-card">
+        <div class="kpi-label">Total Reservations</div>
+        <div class="kpi-value" id="kpiTotalReservations">4</div>
+        <div class="kpi-subtext">Synchronized from web &amp; desk</div>
+      </div>
+    </section>
+
+    <!-- Tab Switching -->
+    <div class="admin-tabs-nav">
+      <button type="button" class="admin-tab-btn active" data-tab="rooms">Rooms &amp; Suites Inventory</button>
+      <button type="button" class="admin-tab-btn" data-tab="reservations">Guest Reservations</button>
+    </div>
+
+    <!-- Toolbar: Search & Filters -->
+    <div class="admin-toolbar">
+      <div class="toolbar-search-box">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="roomSearchInput" placeholder="Search rooms by name, beds, or specs...">
+      </div>
+      <div class="toolbar-filters">
+        <label for="roomStatusFilter" style="font-size: 0.82rem; font-weight: 600; color: var(--ca-text-muted);">Status:</label>
+        <select id="roomStatusFilter" class="filter-select">
+          <option value="all">All Rooms</option>
+          <option value="available">Available Only</option>
+          <option value="maintenance">Maintenance</option>
+          <option value="sold_out">Sold Out</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Rooms Catalog Cards Grid (Active Tab 1) -->
+    <div class="admin-rooms-grid" id="roomsContainer">
+      <!-- Dynamically Rendered by js/admin.js -->
+    </div>
+
+    <!-- Guest Reservations Table (Active Tab 2) -->
+    <div id="reservationsContainer" style="display: none;">
+      <div class="admin-table-container">
+        <table class="admin-data-table">
+          <thead>
+            <tr>
+              <th>Reference ID</th>
+              <th>Guest Details</th>
+              <th>Room &amp; Guests</th>
+              <th>Stay Dates</th>
+              <th>Total Amount</th>
+              <th>Payment Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="reservationsTableBody">
+            <!-- Dynamically Rendered by js/admin.js -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- =========================================================================
+       4. Post / Edit Room Modal Dialog
+       ========================================================================= -->
+  <div class="admin-modal-backdrop" id="roomModalBackdrop">
+    <div class="admin-modal-container">
+      <div class="admin-modal-header">
+        <h2 id="modalTitle">Post / Publish New Room</h2>
+        <button type="button" class="modal-close-btn" id="btnCloseModal">&times;</button>
+      </div>
+
+      <form id="roomForm">
+        <div class="admin-modal-body">
+          <input type="hidden" id="roomId">
+
+          <!-- 2-Column: Room Name & Nightly Rate -->
+          <div class="form-grid-2col">
+            <div class="form-field-group">
+              <label for="roomName">Room Title *</label>
+              <input type="text" id="roomName" placeholder="e.g. Presidential Villa" required>
+            </div>
+            <div class="form-field-group">
+              <label for="roomRate">Rate per Night (₱) *</label>
+              <input type="number" id="roomRate" placeholder="e.g. 18500" required min="1000" step="100">
+            </div>
+          </div>
+
+          <!-- Tagline -->
+          <div class="form-field-group">
+            <label for="roomTagline">Tagline / Short Description</label>
+            <input type="text" id="roomTagline" placeholder="e.g. Secluded sanctuary with private plunge pool and garden.">
+          </div>
+
+          <!-- 3-Column: Capacity & Inventory -->
+          <div class="form-grid-2col" style="grid-template-columns: 1fr 1fr 1fr;">
+            <div class="form-field-group">
+              <label for="roomMaxGuests">Max Guests *</label>
+              <input type="number" id="roomMaxGuests" value="2" min="1" max="10" required>
+            </div>
+            <div class="form-field-group">
+              <label for="roomTotalUnits">Total Units *</label>
+              <input type="number" id="roomTotalUnits" value="5" min="1" max="50" required>
+            </div>
+            <div class="form-field-group">
+              <label for="roomAvailUnits">Available Units *</label>
+              <input type="number" id="roomAvailUnits" value="5" min="0" max="50" required>
+            </div>
+          </div>
+
+          <!-- Bedding, Size, View -->
+          <div class="form-grid-2col" style="grid-template-columns: 1fr 1fr 1fr;">
+            <div class="form-field-group">
+              <label for="roomBedConfig">Bed Configuration</label>
+              <input type="text" id="roomBedConfig" placeholder="e.g. 1 King Bed">
+            </div>
+            <div class="form-field-group">
+              <label for="roomSize">Room Size</label>
+              <input type="text" id="roomSize" placeholder="e.g. 52 m² / 560 sq ft">
+            </div>
+            <div class="form-field-group">
+              <label for="roomView">View</label>
+              <input type="text" id="roomView" placeholder="e.g. Ocean View">
+            </div>
+          </div>
+
+          <!-- Badge, Status, Image Selector -->
+          <div class="form-grid-2col" style="grid-template-columns: 1fr 1fr 1fr;">
+            <div class="form-field-group">
+              <label for="roomBadge">Badge Tag</label>
+              <input type="text" id="roomBadge" placeholder="e.g. Signature, Popular, New">
+            </div>
+            <div class="form-field-group">
+              <label for="roomStatus">Publishing Status *</label>
+              <select id="roomStatus" required>
+                <option value="available">Available (Live on Web)</option>
+                <option value="maintenance">Maintenance / Hold</option>
+                <option value="sold_out">Sold Out</option>
+              </select>
+            </div>
+            <div class="form-field-group">
+              <label for="roomImage">Room Photo</label>
+              <select id="roomImage">
+                <option value="assets/images/deluxe-room.svg">Deluxe Room Suite Image</option>
+                <option value="assets/images/executive-room.svg">Executive Room Suite Image</option>
+                <option value="assets/images/family-room.svg">Family Room Suite Image</option>
+                <option value="assets/images/premium-suite.svg">Premium Suite Image</option>
+                <option value="assets/images/hero-bg.svg">Master Arch Suite Image</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Amenities Selection -->
+          <div class="form-field-group">
+            <label>Key Amenities &amp; Highlights</label>
+            <div class="amenity-checkbox-grid">
+              <label class="amenity-check-label"><input type="checkbox" name="roomAmenities" value="Courtyard garden view"> Courtyard garden view</label>
+              <label class="amenity-check-label"><input type="checkbox" name="roomAmenities" value="Walk-in rain shower"> Walk-in rain shower</label>
+              <label class="amenity-check-label"><input type="checkbox" name="roomAmenities" value="Private outdoor terrace"> Private outdoor terrace</label>
+              <label class="amenity-check-label"><input type="checkbox" name="roomAmenities" value="Deep soaking marble tub"> Deep soaking marble tub</label>
+              <label class="amenity-check-label"><input type="checkbox" name="roomAmenities" value="Complimentary daily breakfast"> Complimentary breakfast</label>
+              <label class="amenity-check-label"><input type="checkbox" name="roomAmenities" value="Nespresso coffee bar"> Nespresso coffee bar</label>
+              <label class="amenity-check-label"><input type="checkbox" name="roomAmenities" value="Complimentary Wi-Fi"> Complimentary Wi-Fi</label>
+              <label class="amenity-check-label"><input type="checkbox" name="roomAmenities" value="Dedicated butler assistance"> Dedicated butler</label>
+              <label class="amenity-check-label"><input type="checkbox" name="roomAmenities" value="VIP airport luxury transfer"> VIP airport transfer</label>
+              <label class="amenity-check-label"><input type="checkbox" name="roomAmenities" value="Evening turndown service"> Evening turndown</label>
+            </div>
+          </div>
+
+          <div style="margin-top: 1rem;">
+            <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.88rem; cursor: pointer;">
+              <input type="checkbox" id="roomFeatured" checked> Feature this room prominently on the Landing Page
+            </label>
+          </div>
+        </div>
+
+        <div class="admin-modal-footer">
+          <button type="button" class="btn-secondary-action" id="btnCancelModal">Cancel</button>
+          <button type="submit" class="btn-post-room">Save &amp; Publish to Website</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="admin-toast" id="adminToast">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ca-gold)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    <span id="toastMessage">Action completed successfully.</span>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/admin.js"></script>
+</body>
+</html>

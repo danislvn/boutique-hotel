@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Your Stay | Casa Amara Boutique Hotel</title>
+  <meta name="description" content="Reserve your stay at Casa Amara Boutique Hotel. Choose dates, select your room, and complete your reservation.">
+  
+  <!-- Google Fonts: Cormorant Garamond & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="booking-page-body">
+
+  <!-- =========================================================================
+       1. Minimal Top Header with Close
+       ========================================================================= -->
+  <header class="booking-header">
+    <div class="booking-header-inner">
+      <a href="index.html" class="brand-logo" aria-label="Casa Amara Home">
+        <div class="logo-circle">CA</div>
+        <div class="logo-text">
+          <span class="logo-title">Casa Amara</span>
+          <span class="logo-subtitle">BOUTIQUE HOTEL</span>
+        </div>
+      </a>
+
+      <a href="javascript:history.back()" class="booking-close-link" id="closeBooking">Close</a>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       2. Stepper Progress Track
+       ========================================================================= -->
+  <div class="booking-stepper-wrapper">
+    <div class="booking-stepper-track" id="stepperTrack">
+      <div class="step-node active" data-step="1">
+        <div class="step-node-bubble">1</div>
+        <span class="step-node-label">Stay details</span>
+      </div>
+      <div class="step-node" data-step="2">
+        <div class="step-node-bubble">2</div>
+        <span class="step-node-label">Available rooms</span>
+      </div>
+      <div class="step-node" data-step="3">
+        <div class="step-node-bubble">3</div>
+        <span class="step-node-label">Guest information</span>
+      </div>
+      <div class="step-node" data-step="4">
+        <div class="step-node-bubble">4</div>
+        <span class="step-node-label">Review reservation</span>
+      </div>
+      <div class="step-node" data-step="5">
+        <div class="step-node-bubble">5</div>
+        <span class="step-node-label">Payment</span>
+      </div>
+      <div class="step-node" data-step="6">
+        <div class="step-node-bubble">6</div>
+        <span class="step-node-label">Confirmation</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       3. Dynamic Multi-Step Area
+       ========================================================================= -->
+  <main class="booking-content-area">
+
+    <!-- STEP 1: Stay Details -->
+    <section class="step-pane" id="step1">
+      <div class="step-header-box">
+        <span class="step-count-badge">STEP 1 OF 6</span>
+        <h1 class="step-title">When will you be joining us?</h1>
+        <p class="step-subtitle">
+          Choose your dates and group size to see rooms that can comfortably accommodate everyone.
+        </p>
+      </div>
+
+      <div class="booking-form-card" style="max-width: 680px; margin: 0 auto;">
+        <div class="form-row-2col">
+          <div class="booking-input-group">
+            <label class="booking-input-label" for="inCheckin">Check-in</label>
+            <div class="input-with-icon">
+              <input type="text" id="inCheckin" class="booking-input" value="10/27/2026">
+              <svg class="input-icon-right" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            </div>
+          </div>
+
+          <div class="booking-input-group">
+            <label class="booking-input-label" for="inCheckout">Check-out</label>
+            <div class="input-with-icon">
+              <input type="text" id="inCheckout" class="booking-input" value="10/30/2026">
+              <svg class="input-icon-right" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="booking-input-group">
+          <label class="booking-input-label" for="inGuests">Guests</label>
+          <input type="number" id="inGuests" class="booking-input" value="2" min="1" max="6">
+          <p class="booking-field-note">
+            Enter your full party size. Results are filtered by each room type's configured capacity.
+          </p>
+        </div>
+
+        <button type="button" class="btn-primary" id="btnToStep2" style="width: 100%; padding: 0.85rem;">
+          Find available rooms &rarr;
+        </button>
+      </div>
+    </section>
+
+    <!-- STEP 2: Available Rooms -->
+    <section class="step-pane" id="step2" style="display: none;">
+      <div class="step-header-box">
+        <span class="step-count-badge">STEP 2 OF 6</span>
+        <h2 class="step-title">Available rooms for your stay.</h2>
+        <p class="step-subtitle" id="step2DateSummary">
+          Oct 27, 2026–Oct 30, 2026 · 2 guests
+        </p>
+      </div>
+
+      <div class="room-select-list">
+        <!-- Room 1: Deluxe Room -->
+        <div class="room-select-card selected" data-room-id="deluxe" data-room-name="Deluxe Room" data-room-price="8200" data-room-thumb="assets/images/deluxe-room.svg">
+          <div class="room-radio-circle">
+            <div class="room-radio-dot"></div>
+          </div>
+          <div class="room-select-thumb">
+            <img src="assets/images/deluxe-room.svg" alt="Deluxe Room">
+          </div>
+          <div class="room-select-details">
+            <div class="room-select-tag">Deluxe room</div>
+            <h3 class="room-select-title">Deluxe Room</h3>
+            <p class="room-select-specs">Up to 2 guests · 1 king bed · Garden view · Rain shower</p>
+          </div>
+          <div class="room-select-price-box">
+            <div class="room-select-price">₱8,200 <span>/ night</span></div>
+          </div>
+        </div>
+
+        <!-- Room 2: Executive Room -->
+        <div class="room-select-card" data-room-id="executive" data-room-name="Executive Room" data-room-price="11500" data-room-thumb="assets/images/executive-room.svg">
+          <div class="room-radio-circle">
+            <div class="room-radio-dot"></div>
+          </div>
+          <div class="room-select-thumb">
+            <img src="assets/images/executive-room.svg" alt="Executive Room">
+          </div>
+          <div class="room-select-details">
+            <div class="room-select-tag">Executive room</div>
+            <h3 class="room-select-title">Executive Room</h3>
+            <p class="room-select-specs">Up to 3 guests · 1 king bed and daybed · Private terrace · King bed · Soaking tub</p>
+          </div>
+          <div class="room-select-price-box">
+            <div class="room-select-price">₱11,500 <span>/ night</span></div>
+          </div>
+        </div>
+
+        <!-- Room 3: Family Room -->
+        <div class="room-select-card" data-room-id="family" data-room-name="Family Room" data-room-price="9800" data-room-thumb="assets/images/family-room.svg">
+          <div class="room-radio-circle">
+            <div class="room-radio-dot"></div>
+          </div>
+          <div class="room-select-thumb">
+            <img src="assets/images/family-room.svg" alt="Family Room">
+          </div>
+          <div class="room-select-details">
+            <div class="room-select-tag">Family room</div>
+            <h3 class="room-select-title">Family Room</h3>
+            <p class="room-select-specs">Up to 5 guests · 2 queen beds · Two queen beds · Courtyard view · Breakfast</p>
+          </div>
+          <div class="room-select-price-box">
+            <div class="room-select-price">₱9,800 <span>/ night</span></div>
+          </div>
+        </div>
+
+        <!-- Room 4: Premium Suite -->
+        <div class="room-select-card" data-room-id="premium" data-room-name="Premium Suite" data-room-price="14500" data-room-thumb="assets/images/premium-suite.svg">
+          <div class="room-radio-circle">
+            <div class="room-radio-dot"></div>
+          </div>
+          <div class="room-select-thumb">
+            <img src="assets/images/premium-suite.svg" alt="Premium Suite">
+          </div>
+          <div class="room-select-details">
+            <div class="room-select-tag">Premium suite</div>
+            <h3 class="room-select-title">Premium Suite</h3>
+            <p class="room-select-specs">Up to 5 guests · 1 king bed and sofa bed · Separate lounge · Soaking tub · Evening turndown</p>
+          </div>
+          <div class="room-select-price-box">
+            <div class="room-select-price">₱14,500 <span>/ night</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="booking-actions-row">
+        <button type="button" class="btn-outline-dark" id="btnBackToStep1">Back</button>
+        <button type="button" class="btn-primary" id="btnToStep3">Select room &rarr;</button>
+      </div>
+    </section>
+
+    <!-- STEP 3: Guest Information -->
+    <section class="step-pane" id="step3" style="display: none;">
+      <div class="step-header-box">
+        <span class="step-count-badge">STEP 3 OF 6</span>
+        <h2 class="step-title">Tell us about yourself.</h2>
+        <p class="step-subtitle">
+          No account is required. We'll use these details for your reservation.
+        </p>
+      </div>
+
+      <div class="booking-form-card" style="max-width: 680px; margin: 0 auto;">
+        <div class="form-row-2col">
+          <div class="booking-input-group">
+            <label class="booking-input-label" for="inFirstName">First name</label>
+            <input type="text" id="inFirstName" class="booking-input" value="John">
+          </div>
+          <div class="booking-input-group">
+            <label class="booking-input-label" for="inLastName">Last name</label>
+            <input type="text" id="inLastName" class="booking-input" value="Doe">
+          </div>
+        </div>
+
+        <div class="booking-input-group" style="margin-bottom: 1.5rem;">
+          <label class="booking-input-label" for="inEmail">Email address</label>
+          <input type="email" id="inEmail" class="booking-input" value="guest@example.com">
+        </div>
+
+        <div class="booking-input-group" style="margin-bottom: 1.5rem;">
+          <label class="booking-input-label" for="inPhone">Phone number</label>
+          <input type="tel" id="inPhone" class="booking-input" value="+63 917 123 4567">
+        </div>
+
+        <div class="booking-input-group" style="margin-bottom: 2rem;">
+          <label class="booking-input-label" for="inRequests">
+            Special requests
+            <span class="optional-tag">Optional</span>
+          </label>
+          <textarea id="inRequests" class="booking-input" rows="4" placeholder="Dietary restrictions, arrival time preferences, or celebration notes..."></textarea>
+        </div>
+
+        <div class="booking-actions-row">
+          <button type="button" class="btn-outline-dark" id="btnBackToStep2">Back</button>
+          <button type="button" class="btn-primary" id="btnToStep4">Review reservation &rarr;</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 4: Review Reservation -->
+    <section class="step-pane" id="step4" style="display: none;">
+      <div class="step-header-box">
+        <span class="step-count-badge">STEP 4 OF 6</span>
+        <h2 class="step-title">Review your reservation.</h2>
+        <p class="step-subtitle">
+          Make sure your hotel stay and contact details are correct.
+        </p>
+      </div>
+
+      <div class="review-top-grid">
+        <!-- Room details -->
+        <div class="review-room-box">
+          <div class="review-room-thumb">
+            <img id="reviewRoomImg" src="assets/images/deluxe-room.svg" alt="Selected Room">
+          </div>
+          <div class="review-room-info">
+            <span class="review-room-tag" id="reviewRoomTag">Deluxe room</span>
+            <h3 class="review-room-title" id="reviewRoomTitle">Deluxe Room</h3>
+            <div class="review-dates-row">
+              <div>
+                <span style="font-size: 0.65rem; display:block; letter-spacing:0.12em; text-transform:uppercase;">CHECK-IN</span>
+                <strong id="reviewCheckinTxt">Oct 27, 2026</strong>
+              </div>
+              <span style="font-size: 1.2rem; color:#A4988A;">&mdash;</span>
+              <div>
+                <span style="font-size: 0.65rem; display:block; letter-spacing:0.12em; text-transform:uppercase;">CHECK-OUT</span>
+                <strong id="reviewCheckoutTxt">Oct 30, 2026</strong>
+              </div>
+            </div>
+            <p class="review-room-bottom-meta" id="reviewStayMeta">
+              3 nights · 2 guests · 1 room
+            </p>
+          </div>
+        </div>
+
+        <!-- Price summary -->
+        <div class="review-price-summary-box">
+          <div>
+            <h3 class="review-price-title">Price summary</h3>
+            <div class="price-summary-row">
+              <span id="priceFormulaTxt">₱8,200 × 3 nights</span>
+              <span id="priceSubtotalTxt">₱24,600</span>
+            </div>
+            <div class="price-summary-row">
+              <span>Taxes &amp; service fees</span>
+              <span id="priceTaxTxt">₱2,952</span>
+            </div>
+          </div>
+          <div>
+            <div class="price-summary-divider"></div>
+            <div class="price-total-row">
+              <span>Total</span>
+              <span id="priceTotalTxt">₱27,552</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Guest summary -->
+      <div class="review-guest-box">
+        <div>
+          <div class="review-guest-item-label">GUEST</div>
+          <div class="review-guest-item-val" id="reviewGuestName">John Doe</div>
+        </div>
+        <div>
+          <div class="review-guest-item-label">EMAIL</div>
+          <div class="review-guest-item-val" id="reviewGuestEmail">guest@example.com</div>
+        </div>
+        <div>
+          <div class="review-guest-item-label">PHONE</div>
+          <div class="review-guest-item-val" id="reviewGuestPhone">+63 917 123 4567</div>
+        </div>
+      </div>
+
+      <div class="booking-actions-row" style="margin-top: 2.25rem;">
+        <button type="button" class="btn-outline-dark" id="btnBackToStep3">Back</button>
+        <button type="button" class="btn-primary" id="btnToStep5">Continue to payment &rarr;</button>
+      </div>
+    </section>
+
+    <!-- STEP 5: Payment -->
+    <section class="step-pane" id="step5" style="display: none;">
+      <div class="step-header-box">
+        <span class="step-count-badge">STEP 5 OF 6</span>
+        <h2 class="step-title">Complete your reservation.</h2>
+        <p class="step-subtitle">
+          This student prototype simulates payment; it is not connected to a live gateway.
+        </p>
+      </div>
+
+      <div class="payment-grid">
+        <!-- Left: Payment options -->
+        <div>
+          <div class="payment-methods-stack">
+            <!-- Option 1: Card deposit -->
+            <div class="payment-option-card selected" data-pay-method="card">
+              <div class="room-radio-circle">
+                <div class="room-radio-dot" style="opacity: 1;"></div>
+              </div>
+              <div class="ca-badge-square">CA</div>
+              <div>
+                <h4 class="payment-option-title">Card deposit</h4>
+                <p class="payment-option-subtitle" id="cardDepositSub">Simulated 30% deposit of ₱8,266</p>
+              </div>
+            </div>
+
+            <!-- Option 2: GCash deposit -->
+            <div class="payment-option-card" data-pay-method="gcash">
+              <div class="room-radio-circle">
+                <div class="room-radio-dot"></div>
+              </div>
+              <div class="ca-badge-square">CA</div>
+              <div>
+                <h4 class="payment-option-title">GCash deposit</h4>
+                <p class="payment-option-subtitle" id="gcashDepositSub">Simulated 30% deposit of ₱8,266</p>
+              </div>
+            </div>
+
+            <!-- Option 3: Pay at hotel -->
+            <div class="payment-option-card" data-pay-method="hotel">
+              <div class="room-radio-circle">
+                <div class="room-radio-dot"></div>
+              </div>
+              <div class="ca-badge-square">CA</div>
+              <div>
+                <h4 class="payment-option-title">Pay at hotel</h4>
+                <p class="payment-option-subtitle">No payment collected today; reservation remains pending</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card inputs -->
+          <div class="card-inputs-box" id="cardInputsContainer">
+            <div class="booking-input-group" style="margin-bottom: 1.25rem;">
+              <label class="booking-input-label" for="inCardNum">Card number</label>
+              <input type="text" id="inCardNum" class="booking-input" value="0000 0000 0000 0000">
+            </div>
+
+            <div class="form-row-2col" style="margin-bottom: 0;">
+              <div class="booking-input-group">
+                <label class="booking-input-label" for="inExpiry">Expiry</label>
+                <input type="text" id="inExpiry" class="booking-input" value="MM / YY">
+              </div>
+              <div class="booking-input-group">
+                <label class="booking-input-label" for="inCvv">CVV</label>
+                <input type="text" id="inCvv" class="booking-input" value="123">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Your stay summary -->
+        <div>
+          <div class="review-price-summary-box" style="height: auto;">
+            <div>
+              <h3 class="review-price-title">Your stay</h3>
+              <div class="price-summary-row">
+                <span id="payStayRoomTitle">Deluxe Room</span>
+                <span id="payStaySubtotal">₱24,600</span>
+              </div>
+              <p style="font-size: 0.76rem; color: #695F54; margin-bottom: 0.75rem;" id="payStayDates">
+                Oct 27, 2026–Oct 30, 2026 · 3 nights
+              </p>
+              <div class="price-summary-row">
+                <span>Taxes &amp; fees</span>
+                <span id="payStayTax">₱2,952</span>
+              </div>
+              <div class="price-summary-divider"></div>
+              <div class="price-total-row" style="margin-bottom: 1.5rem;">
+                <span>Total</span>
+                <span id="payStayTotal">₱27,552</span>
+              </div>
+            </div>
+
+            <button type="button" class="btn-primary" id="btnConfirmBooking" style="width: 100%; padding: 0.85rem; font-size: 0.9rem;">
+              Confirm reservation
+            </button>
+            <p class="simulation-note">
+              Simulated payment only. No real funds are collected.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="booking-actions-row" style="margin-top: 2rem;">
+        <button type="button" class="btn-outline-dark" id="btnBackToStep4">Back</button>
+      </div>
+    </section>
+
+    <!-- STEP 6: Confirmation Screen -->
+    <section class="step-pane" id="step6" style="display: none;">
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <div class="conf-checkmark-circle">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+
+        <span class="step-count-badge">BOOKING CONFIRMATION</span>
+        <h1 class="step-title" style="font-size: clamp(2.8rem, 5vw, 4rem); line-height: 1.1; margin-bottom: 1.25rem;">
+          Your room is<br>waiting.
+        </h1>
+        <p class="step-subtitle" style="max-width: 620px; margin: 0 auto 2.5rem;" id="confMessageSubtitle">
+          We've recorded your reservation and sent the details to <span id="confEmailSpan" style="color: var(--ca-charcoal); font-weight: 500;">guest@example.com</span>. Save your booking reference to manage your stay.
+        </p>
+      </div>
+
+      <!-- Dark Reference Banner -->
+      <div class="conf-ref-banner">
+        <div class="conf-ref-tag">BOOKING REFERENCE</div>
+        <div class="conf-ref-code" id="confBookingRefCode">CA-6COZNS-5OJ</div>
+        <div class="conf-ref-hint">
+          Use this with <span id="confEmailHintSpan" style="color: #DFC8A5;">guest@example.com</span> to retrieve your reservation.
+        </div>
+      </div>
+
+      <!-- 4-Column Details Bar -->
+      <div class="conf-details-bar">
+        <!-- Column 1: Guest -->
+        <div class="conf-details-col">
+          <span class="conf-col-label">GUEST</span>
+          <span class="conf-col-val-primary" id="confColGuest">John Doe</span>
+          <span class="conf-col-val-secondary" id="confColParty">2 guests</span>
+        </div>
+
+        <!-- Column 2: Stay -->
+        <div class="conf-details-col">
+          <span class="conf-col-label">STAY</span>
+          <span class="conf-col-val-primary" id="confColCheckin">Oct 27, 2026</span>
+          <span class="conf-col-val-secondary" id="confColCheckout">to Oct 30, 2026</span>
+        </div>
+
+        <!-- Column 3: Room -->
+        <div class="conf-details-col">
+          <span class="conf-col-label">ROOM</span>
+          <span class="conf-col-val-primary" id="confColRoom">Deluxe Room</span>
+          <span class="conf-col-val-secondary" id="confColNights">3 nights</span>
+        </div>
+
+        <!-- Column 4: Payment -->
+        <div class="conf-details-col">
+          <span class="conf-col-label">PAYMENT</span>
+          <span class="conf-col-val-primary" id="confColPayStatus">Deposit paid</span>
+          <span class="conf-col-val-secondary" id="confColPayAmount">₱8,266 collected</span>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <a href="index.html" class="btn-primary" style="padding: 0.85rem 2.25rem;">
+          Return to hotel website
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Booking Flow Logic -->
+  <script src="js/booking.js"></script>
+</body>
+</html>
