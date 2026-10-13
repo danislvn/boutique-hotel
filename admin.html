@@ -218,9 +218,25 @@
               <label for="roomBedConfig">Bed Configuration</label>
               <input type="text" id="roomBedConfig" placeholder="e.g. 1 King Bed">
             </div>
-            <div class="form-field-group">
-              <label for="roomSize">Room Size</label>
-              <input type="text" id="roomSize" placeholder="e.g. 52 m² / 560 sq ft">
+            <div class="form-field-group room-size-field-group">
+              <label for="roomSizeNum">Room Size (m²)</label>
+              <div class="input-with-unit">
+                <input type="number" id="roomSizeNum" placeholder="52" min="10" max="500" step="1">
+                <span class="unit-suffix">m²</span>
+              </div>
+              <input type="hidden" id="roomSize" name="roomSize" value="52 m² / 560 sq ft">
+              <div class="room-size-preview" id="roomSizePreview">
+                <span class="preview-label">Live Display:</span>
+                <span class="preview-val" id="roomSizePreviewText">52 m² / 560 sq ft</span>
+              </div>
+              <div class="room-size-presets-bar">
+                <span class="presets-hint">Presets:</span>
+                <button type="button" class="preset-size-chip" data-size="38">38 m²</button>
+                <button type="button" class="preset-size-chip" data-size="48">48 m²</button>
+                <button type="button" class="preset-size-chip" data-size="56">56 m²</button>
+                <button type="button" class="preset-size-chip" data-size="68">68 m²</button>
+                <button type="button" class="preset-size-chip" data-size="95">95 m²</button>
+              </div>
             </div>
             <div class="form-field-group">
               <label for="roomView">View</label>
@@ -245,6 +261,10 @@
             <div class="form-field-group">
               <label for="roomImage">Room Photo</label>
               <select id="roomImage">
+                <option value="assets/images/deluxe-room.jpg">Deluxe Suite (High-Res Photo)</option>
+                <option value="assets/images/executive-room.jpg">Executive Suite (High-Res Photo)</option>
+                <option value="assets/images/family-room.jpg">Family Suite (High-Res Photo)</option>
+                <option value="assets/images/premium-suite.jpg">Premium Suite (High-Res Photo)</option>
                 <option value="assets/images/deluxe-room.svg">Deluxe Room Suite Image</option>
                 <option value="assets/images/executive-room.svg">Executive Room Suite Image</option>
                 <option value="assets/images/family-room.svg">Family Room Suite Image</option>
@@ -258,22 +278,111 @@
           <div class="form-field-group">
             <label>Key Amenities &amp; Highlights</label>
             <div class="amenity-checkbox-grid">
-              <label class="amenity-check-label"><input type="checkbox" name="roomAmenities" value="Courtyard garden view"> Courtyard garden view</label>
-              <label class="amenity-check-label"><input type="checkbox" name="roomAmenities" value="Walk-in rain shower"> Walk-in rain shower</label>
-              <label class="amenity-check-label"><input type="checkbox" name="roomAmenities" value="Private outdoor terrace"> Private outdoor terrace</label>
-              <label class="amenity-check-label"><input type="checkbox" name="roomAmenities" value="Deep soaking marble tub"> Deep soaking marble tub</label>
-              <label class="amenity-check-label"><input type="checkbox" name="roomAmenities" value="Complimentary daily breakfast"> Complimentary breakfast</label>
-              <label class="amenity-check-label"><input type="checkbox" name="roomAmenities" value="Nespresso coffee bar"> Nespresso coffee bar</label>
-              <label class="amenity-check-label"><input type="checkbox" name="roomAmenities" value="Complimentary Wi-Fi"> Complimentary Wi-Fi</label>
-              <label class="amenity-check-label"><input type="checkbox" name="roomAmenities" value="Dedicated butler assistance"> Dedicated butler</label>
-              <label class="amenity-check-label"><input type="checkbox" name="roomAmenities" value="VIP airport luxury transfer"> VIP airport transfer</label>
-              <label class="amenity-check-label"><input type="checkbox" name="roomAmenities" value="Evening turndown service"> Evening turndown</label>
+              <label class="amenity-check-card">
+                <input type="checkbox" name="roomAmenities" value="Courtyard garden view">
+                <span class="custom-checkbox-indicator">
+                  <svg class="check-icon" viewBox="0 0 16 16" fill="none">
+                    <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span class="amenity-name">Courtyard garden view</span>
+              </label>
+              <label class="amenity-check-card">
+                <input type="checkbox" name="roomAmenities" value="Walk-in rain shower">
+                <span class="custom-checkbox-indicator">
+                  <svg class="check-icon" viewBox="0 0 16 16" fill="none">
+                    <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span class="amenity-name">Walk-in rain shower</span>
+              </label>
+              <label class="amenity-check-card">
+                <input type="checkbox" name="roomAmenities" value="Private outdoor terrace">
+                <span class="custom-checkbox-indicator">
+                  <svg class="check-icon" viewBox="0 0 16 16" fill="none">
+                    <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span class="amenity-name">Private outdoor terrace</span>
+              </label>
+              <label class="amenity-check-card">
+                <input type="checkbox" name="roomAmenities" value="Deep soaking marble tub">
+                <span class="custom-checkbox-indicator">
+                  <svg class="check-icon" viewBox="0 0 16 16" fill="none">
+                    <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span class="amenity-name">Deep soaking marble tub</span>
+              </label>
+              <label class="amenity-check-card">
+                <input type="checkbox" name="roomAmenities" value="Complimentary daily breakfast">
+                <span class="custom-checkbox-indicator">
+                  <svg class="check-icon" viewBox="0 0 16 16" fill="none">
+                    <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span class="amenity-name">Complimentary breakfast</span>
+              </label>
+              <label class="amenity-check-card">
+                <input type="checkbox" name="roomAmenities" value="Nespresso coffee bar">
+                <span class="custom-checkbox-indicator">
+                  <svg class="check-icon" viewBox="0 0 16 16" fill="none">
+                    <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span class="amenity-name">Nespresso coffee bar</span>
+              </label>
+              <label class="amenity-check-card">
+                <input type="checkbox" name="roomAmenities" value="Complimentary Wi-Fi">
+                <span class="custom-checkbox-indicator">
+                  <svg class="check-icon" viewBox="0 0 16 16" fill="none">
+                    <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span class="amenity-name">Complimentary Wi-Fi</span>
+              </label>
+              <label class="amenity-check-card">
+                <input type="checkbox" name="roomAmenities" value="Dedicated butler assistance">
+                <span class="custom-checkbox-indicator">
+                  <svg class="check-icon" viewBox="0 0 16 16" fill="none">
+                    <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span class="amenity-name">Dedicated butler</span>
+              </label>
+              <label class="amenity-check-card">
+                <input type="checkbox" name="roomAmenities" value="VIP airport luxury transfer">
+                <span class="custom-checkbox-indicator">
+                  <svg class="check-icon" viewBox="0 0 16 16" fill="none">
+                    <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span class="amenity-name">VIP airport transfer</span>
+              </label>
+              <label class="amenity-check-card">
+                <input type="checkbox" name="roomAmenities" value="Evening turndown service">
+                <span class="custom-checkbox-indicator">
+                  <svg class="check-icon" viewBox="0 0 16 16" fill="none">
+                    <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span class="amenity-name">Evening turndown</span>
+              </label>
             </div>
           </div>
 
-          <div style="margin-top: 1rem;">
-            <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.88rem; cursor: pointer;">
-              <input type="checkbox" id="roomFeatured" checked> Feature this room prominently on the Landing Page
+          <div class="featured-card-wrapper">
+            <label class="amenity-check-card featured-toggle-card">
+              <input type="checkbox" id="roomFeatured" checked>
+              <span class="custom-checkbox-indicator">
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none">
+                  <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <div class="featured-text-content">
+                <span class="featured-title">Feature this room prominently on the Landing Page</span>
+                <span class="featured-desc">Highlight in the curated suites carousel on the home page</span>
+              </div>
             </label>
           </div>
         </div>

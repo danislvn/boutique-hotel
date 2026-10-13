@@ -285,7 +285,19 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('roomTotalUnits').value = room.inventory_units;
     document.getElementById('roomAvailUnits').value = room.available_units !== undefined ? room.available_units : room.inventory_units;
     document.getElementById('roomBedConfig').value = room.bed_config || '';
-    document.getElementById('roomSize').value = room.room_size || '';
+    // Set Room Size
+    const rawSize = room.room_size || '';
+    document.getElementById('roomSize').value = rawSize;
+    const sizeMatch = rawSize.match(/(\d+(\.\d+)?)/);
+    const roomSizeNum = document.getElementById('roomSizeNum');
+    if (sizeMatch && roomSizeNum) {
+      roomSizeNum.value = sizeMatch[1];
+      updateRoomSizeFromNum(sizeMatch[1]);
+    } else if (roomSizeNum) {
+      roomSizeNum.value = '';
+      updateRoomSizeFromNum('');
+    }
+
     document.getElementById('roomView').value = room.view || '';
     document.getElementById('roomBadge').value = room.badge || '';
     document.getElementById('roomStatus').value = room.status || 'available';
@@ -297,6 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
     checkBoxes.forEach(cb => {
       cb.checked = (room.amenities || []).includes(cb.value);
     });
+    syncCheckboxCards();
 
     roomModalBackdrop.classList.add('active');
   };
@@ -365,6 +378,13 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('roomTotalUnits').value = '5';
       document.getElementById('roomAvailUnits').value = '5';
       document.getElementById('roomStatus').value = 'available';
+      
+      const roomSizeNum = document.getElementById('roomSizeNum');
+      if (roomSizeNum) {
+        roomSizeNum.value = '52';
+        updateRoomSizeFromNum('52');
+      }
+      syncCheckboxCards();
       roomModalBackdrop.classList.add('active');
     });
   }
@@ -447,6 +467,80 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // --- Room Size Automation & Calculation ---
+  function formatRoomSize(sqmVal) {
+    if (!sqmVal || isNaN(sqmVal)) return '';
+    const sqm = parseFloat(sqmVal);
+    if (sqm <= 0) return '';
+    const sqft = Math.round(sqm * 10.7639);
+    return `${sqm} m² / ${sqft} sq ft`;
+  }
+
+  function updateRoomSizeFromNum(sqmVal) {
+    const roomSizeHidden = document.getElementById('roomSize');
+    const previewText = document.getElementById('roomSizePreviewText');
+    const chips = document.querySelectorAll('.preset-size-chip');
+
+    if (!sqmVal || isNaN(sqmVal) || parseFloat(sqmVal) <= 0) {
+      if (roomSizeHidden) roomSizeHidden.value = '';
+      if (previewText) previewText.textContent = 'Enter area in m² (e.g. 52)';
+      chips.forEach(c => c.classList.remove('active'));
+      return;
+    }
+
+    const sqm = parseFloat(sqmVal);
+    const formatted = formatRoomSize(sqm);
+    if (roomSizeHidden) roomSizeHidden.value = formatted;
+    if (previewText) previewText.textContent = formatted;
+
+    chips.forEach(c => {
+      if (parseFloat(c.dataset.size) === sqm) {
+        c.classList.add('active');
+      } else {
+        c.classList.remove('active');
+      }
+    });
+  }
+
+  const roomSizeNum = document.getElementById('roomSizeNum');
+  if (roomSizeNum) {
+    roomSizeNum.addEventListener('input', (e) => {
+      updateRoomSizeFromNum(e.target.value);
+    });
+  }
+
+  document.querySelectorAll('.preset-size-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const size = chip.dataset.size;
+      if (roomSizeNum) {
+        roomSizeNum.value = size;
+        updateRoomSizeFromNum(size);
+      }
+    });
+  });
+
+  // --- Luxury Checkbox Card Synchronization ---
+  function syncCheckboxCards() {
+    document.querySelectorAll('.amenity-check-card').forEach(card => {
+      const cb = card.querySelector('input[type="checkbox"]');
+      if (cb) {
+        if (cb.checked) {
+          card.classList.add('is-checked');
+        } else {
+          card.classList.remove('is-checked');
+        }
+      }
+    });
+  }
+
+  document.querySelectorAll('.amenity-check-card input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', syncCheckboxCards);
+  });
+
   // Init
   checkAuth();
+  if (roomSizeNum && roomSizeNum.value) {
+    updateRoomSizeFromNum(roomSizeNum.value);
+  }
+  syncCheckboxCards();
 });
