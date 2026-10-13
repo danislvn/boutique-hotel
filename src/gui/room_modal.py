@@ -236,7 +236,7 @@ class RoomModal(tk.Toplevel):
             "badge": self.var_badge.get().strip(),
             "status": self.var_status.get(),
             "amenities": self.room_data.get("amenities", ["Courtyard view", "Walk-in rain shower", "Complimentary Wi-Fi"]),
-            "image": self.room_data.get("image", "assets/images/deluxe-room.svg"),
+            "image": self.room_data.get("image", "assets/images/deluxe-room.jpg"),
             "featured": self.room_data.get("featured", True)
         }
 

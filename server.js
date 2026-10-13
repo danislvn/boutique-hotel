@@ -131,7 +131,7 @@ const server = http.createServer((req, res) => {
             roomData.status = roomData.status || 'available';
             roomData.date_posted = roomData.date_posted || new Date().toISOString().slice(0, 10);
             roomData.amenities = Array.isArray(roomData.amenities) ? roomData.amenities : [];
-            roomData.image = roomData.image || 'assets/images/deluxe-room.svg';
+            roomData.image = roomData.image || 'assets/images/deluxe-room.jpg';
 
             const existingIdx = rooms.findIndex(r => r.id === roomData.id);
             if (existingIdx >= 0) {

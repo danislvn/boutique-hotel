@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return `
         <div class="admin-room-card" data-room-id="${room.id}">
           <div class="admin-room-media">
-            <img src="${room.image || 'assets/images/deluxe-room.svg'}" alt="${room.name}" />
+            <img src="${room.image || 'assets/images/deluxe-room.jpg'}" alt="${room.name}" />
             ${room.badge ? `<span class="room-badge-overlay">${room.badge}</span>` : ''}
             <span class="room-status-badge ${statusClass}">${statusText}</span>
           </div>
@@ -345,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('roomBadge').value = room.badge || '';
     document.getElementById('roomStatus').value = room.status || 'available';
     document.getElementById('roomFeatured').checked = !!room.featured;
-    document.getElementById('roomImage').value = room.image || 'assets/images/deluxe-room.svg';
+    document.getElementById('roomImage').value = room.image || 'assets/images/deluxe-room.jpg';
 
     // Set amenities
     const checkBoxes = document.querySelectorAll('input[name="roomAmenities"]');

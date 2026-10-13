@@ -333,7 +333,7 @@ button {
     rgba(22, 19, 17, 0.78) 0%, 
     rgba(22, 19, 17, 0.45) 55%, 
     rgba(22, 19, 17, 0.2) 100%
-  ), url('../assets/images/hero-bg.svg');
+  ), url('../assets/images/hero-bg.jpg');
   background-size: cover;
   background-position: center;
   color: var(--ca-pure-white);

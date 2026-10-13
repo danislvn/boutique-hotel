@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <article class="room-card" data-room-id="${room.id}">
               <div class="room-image-box">
                 <span class="room-badge">${(room.badge || room.name).toUpperCase()}</span>
-                <img src="${room.image || 'assets/images/deluxe-room.svg'}" alt="${room.name}" loading="lazy">
+                <img src="${room.image || 'assets/images/deluxe-room.jpg'}" alt="${room.name}" loading="lazy">
               </div>
               <div class="room-content">
                 <div class="room-header">
