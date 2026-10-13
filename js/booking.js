@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
       id: 'deluxe',
       name: 'Deluxe Room',
       price: 8200,
-      thumb: 'assets/images/deluxe-room.svg',
+      thumb: 'assets/images/deluxe-room.jpg',
       tag: 'Deluxe room'
     },
     guest: {
@@ -143,10 +143,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // Room pre-selection
   if (paramRoom) {
     const roomMap = {
-      'deluxe': { name: 'Deluxe Room', price: 8200, thumb: 'assets/images/deluxe-room.svg', tag: 'Deluxe room' },
-      'executive': { name: 'Executive Room', price: 11500, thumb: 'assets/images/executive-room.svg', tag: 'Executive room' },
-      'family': { name: 'Family Room', price: 9800, thumb: 'assets/images/family-room.svg', tag: 'Family room' },
-      'premium': { name: 'Premium Suite', price: 14500, thumb: 'assets/images/premium-suite.svg', tag: 'Premium suite' }
+      'deluxe': { name: 'Deluxe Room', price: 8200, thumb: 'assets/images/deluxe-room.jpg', tag: 'Deluxe room' },
+      'executive': { name: 'Executive Room', price: 11500, thumb: 'assets/images/executive-room.jpg', tag: 'Executive room' },
+      'family': { name: 'Family Room', price: 9800, thumb: 'assets/images/family-room.jpg', tag: 'Family room' },
+      'premium': { name: 'Premium Suite', price: 14500, thumb: 'assets/images/premium-suite.jpg', tag: 'Premium suite' }
     };
     if (roomMap[paramRoom]) {
       bookingState.room.id = paramRoom;
@@ -447,12 +447,12 @@ document.addEventListener('DOMContentLoaded', () => {
                    data-room-id="${r.id}" 
                    data-room-name="${r.name}" 
                    data-room-price="${r.rate_per_night}" 
-                   data-room-thumb="${r.image || 'assets/images/deluxe-room.svg'}">
+                   data-room-thumb="${r.image || 'assets/images/deluxe-room.jpg'}">
                 <div class="room-radio-circle">
                   <div class="room-radio-dot"></div>
                 </div>
                 <div class="room-select-thumb">
-                  <img src="${r.image || 'assets/images/deluxe-room.svg'}" alt="${r.name}">
+                  <img src="${r.image || 'assets/images/deluxe-room.jpg'}" alt="${r.name}">
                 </div>
                 <div class="room-select-details">
                   <div class="room-select-tag">${r.badge || r.name}</div>
