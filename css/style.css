@@ -1104,153 +1104,6 @@ button {
     justify-content: center;
   }
 
-  /* Booking Page Responsiveness */
-  .booking-header {
-    padding: 0.85rem 0;
-  }
-
-  .booking-header-inner {
-    padding: 0 1rem;
-  }
-
-  .booking-stepper-wrapper {
-    padding: 1.5rem 0 0.85rem;
-  }
-
-  .booking-stepper-track {
-    padding: 0 0.5rem;
-  }
-
-  .step-node-bubble {
-    width: 28px;
-    height: 28px;
-    font-size: 0.74rem;
-  }
-
-  .booking-stepper-track::before {
-    top: 14px;
-    left: 15px;
-    right: 15px;
-  }
-
-  .step-header-box {
-    margin-bottom: 2rem;
-  }
-
-  .step-title {
-    font-size: clamp(1.8rem, 6vw, 2.5rem);
-    line-height: 1.2;
-  }
-
-  .step-subtitle {
-    font-size: 0.88rem;
-  }
-
-  .booking-form-card {
-    padding: 1.5rem 1.15rem;
-    border-radius: 6px;
-  }
-
-  .form-row-2col {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  .booking-input {
-    padding: 0.7rem 0.85rem;
-    font-size: 0.88rem;
-  }
-
-  .room-select-card {
-    flex-wrap: wrap;
-    gap: 0.85rem 1rem;
-    padding: 1.15rem;
-  }
-
-  .room-select-thumb {
-    width: 90px;
-    height: 65px;
-  }
-
-  .room-select-details {
-    width: calc(100% - 130px);
-  }
-
-  .room-select-title {
-    font-size: 1.2rem;
-  }
-
-  .room-select-specs {
-    font-size: 0.75rem;
-    line-height: 1.4;
-  }
-
-  .room-select-price-box {
-    width: 100%;
-    text-align: right;
-    padding-top: 0.5rem;
-    border-top: 1px dashed var(--ca-border-subtle);
-  }
-
-  .review-top-grid,
-  .payment-grid {
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
-  }
-
-  .review-room-box {
-    flex-direction: column;
-  }
-
-  .review-room-thumb {
-    width: 100%;
-    height: 180px;
-  }
-
-  .review-room-info {
-    padding: 1.25rem 1.15rem;
-  }
-
-  .review-guest-box {
-    grid-template-columns: 1fr;
-    gap: 0.85rem;
-    padding: 1.25rem 1.15rem;
-  }
-
-  .payment-option-card {
-    padding: 1rem;
-  }
-
-  .card-inputs-box {
-    padding: 1.1rem;
-  }
-
-  .confirmation-card {
-    padding: 2.25rem 1.25rem;
-  }
-
-  .conf-ref-banner {
-    padding: 1.5rem 1rem;
-  }
-
-  .conf-details-bar {
-    grid-template-columns: 1fr;
-    gap: 0.85rem;
-    padding: 1.15rem 1rem;
-  }
-
-  .conf-details-col {
-    border-right: none !important;
-    border-bottom: 1px solid #D6CEC3;
-    padding-bottom: 0.85rem;
-    text-align: center;
-  }
-
-  .conf-details-col:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-  }
 }
 
 @media (max-width: 640px) {
@@ -2412,35 +2265,7 @@ button {
   margin: 0 auto 1.5rem;
 }
 
-/* Responsive Booking Queries */
-@media (max-width: 860px) {
-  .review-top-grid,
-  .payment-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .review-guest-box {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-  
-  .booking-stepper-track {
-    overflow-x: auto;
-    padding-bottom: 0.5rem;
-  }
-  
-  .step-node-label {
-    display: none;
-  }
-  
-  .step-node.active .step-node-label {
-    display: block;
-  }
-  
-  .room-select-card {
-    flex-wrap: wrap;
-  }
-}
+
 
 /* --------------------------------------------------------------------------
    16. Confirmation Screen Exact Replication
@@ -2535,16 +2360,408 @@ button {
   color: var(--ca-text-muted);
 }
 
-@media (max-width: 720px) {
+/* ==========================================================================
+   Comprehensive Mobile & Tablet Booking Process Optimization
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* Stepper Bar */
+  .booking-stepper-wrapper {
+    padding: 1.25rem 0.5rem 0.65rem;
+    max-width: 100%;
+  }
+
+  .booking-stepper-track {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    max-width: 320px;
+    margin: 0 auto;
+    padding: 0 4px;
+    overflow: visible;
+  }
+
+  .booking-stepper-track::before {
+    top: 50%;
+    transform: translateY(-50%);
+    left: 14px;
+    right: 14px;
+    height: 1.5px;
+    background-color: #D6CEC3;
+    z-index: 1;
+  }
+
+  .step-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    flex: 0 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .step-node-bubble {
+    width: 28px;
+    height: 28px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    background-color: #FAF7F2;
+    border: 1.5px solid #C5BBAE;
+    box-shadow: 0 0 0 2px #FAF7F2;
+    z-index: 2;
+  }
+
+  .step-node.active .step-node-bubble {
+    background-color: var(--ca-gold);
+    border-color: var(--ca-gold);
+    color: #FFFFFF;
+    box-shadow: 0 0 0 3px rgba(181, 154, 114, 0.25);
+  }
+
+  .step-node.completed .step-node-bubble {
+    background-color: #A8906B;
+    border-color: #A8906B;
+    color: #FFFFFF;
+  }
+
+  /* Hide individual labels under circles on mobile for perfect horizontal symmetry */
+  .step-node-label,
+  .step-node.active .step-node-label {
+    display: none !important;
+  }
+
+  /* Content area & Headings */
+  .booking-content-area {
+    padding: 0 1rem;
+    margin: 0.5rem auto 3rem;
+  }
+
+  .step-header-box {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    padding: 0 0.5rem;
+  }
+
+  .step-count-badge {
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    margin-bottom: 0.45rem;
+    display: inline-block;
+  }
+
+  .step-title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.85rem, 6.2vw, 2.3rem);
+    line-height: 1.15;
+    margin: 0 auto 0.65rem;
+    max-width: 320px;
+    text-wrap: balance;
+    font-weight: 400;
+  }
+
+  .step-subtitle {
+    font-size: 0.88rem;
+    line-height: 1.52;
+    max-width: 320px;
+    margin: 0 auto;
+    color: var(--ca-text-muted);
+    text-wrap: balance;
+  }
+
+  /* Step 1 & General Forms */
+  .booking-form-card {
+    padding: 1.5rem 1.15rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 18px rgba(35, 32, 29, 0.05);
+    background-color: var(--ca-warm-beige);
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .form-row-2col {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.15rem !important;
+    margin-bottom: 1.15rem !important;
+    width: 100%;
+  }
+
+  .booking-input-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .booking-input-label {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--ca-charcoal);
+  }
+
+  .booking-input {
+    width: 100%;
+    height: 46px;
+    padding: 0 2.85rem 0 0.95rem;
+    font-size: 0.92rem;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: var(--ca-pure-white);
+  }
+
+  .input-with-icon {
+    position: relative;
+    width: 100%;
+  }
+
+  .search-calendar-btn {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .booking-field-note {
+    font-size: 0.74rem;
+    line-height: 1.45;
+    margin-top: 0.35rem;
+    margin-bottom: 1.35rem;
+  }
+
+  #btnToStep2,
+  .btn-primary {
+    width: 100%;
+    height: 48px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+  }
+
+  /* Step 2: Available Rooms */
+  .room-select-list {
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .room-select-card {
+    display: grid;
+    grid-template-columns: 22px 75px 1fr;
+    grid-template-areas:
+      "radio thumb details"
+      "price price price";
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    border-radius: 6px;
+  }
+
+  .room-radio-circle {
+    grid-area: radio;
+    width: 20px;
+    height: 20px;
+  }
+
+  .room-select-thumb {
+    grid-area: thumb;
+    width: 75px;
+    height: 60px;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .room-select-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .room-select-details {
+    grid-area: details;
+    min-width: 0;
+  }
+
+  .room-select-tag {
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.15rem;
+  }
+
+  .room-select-title {
+    font-size: 1.1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0.15rem;
+  }
+
+  .room-select-specs {
+    font-size: 0.72rem;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .room-select-price-box {
+    grid-area: price;
+    display: flex;
+    justify-content: flex-end;
+    align-items: baseline;
+    padding-top: 0.65rem;
+    border-top: 1px dashed rgba(226, 219, 210, 0.75);
+    margin-top: 0.25rem;
+    width: 100%;
+  }
+
+  .room-select-price {
+    font-size: 1.15rem;
+  }
+
+  /* Booking Actions Row */
+  .booking-actions-row {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.75rem;
+    width: 100%;
+    margin-top: 1.5rem;
+  }
+
+  .booking-actions-row button,
+  .booking-actions-row a {
+    width: 100%;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    font-size: 0.92rem;
+  }
+
+  /* Step 4: Review */
+  .review-top-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .review-room-box {
+    padding: 1.25rem 1rem;
+    border-radius: 6px;
+    gap: 1rem;
+    flex-direction: column;
+  }
+
+  .review-room-thumb {
+    width: 100%;
+    height: 160px;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .review-room-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .review-dates-row {
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+  }
+
+  .review-price-summary-box {
+    padding: 1.25rem 1rem;
+    border-radius: 6px;
+  }
+
+  .review-guest-box {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+    padding: 1.25rem 1rem;
+    border-radius: 6px;
+  }
+
+  /* Step 5: Payment */
+  .payment-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .payment-option-card {
+    padding: 0.95rem 1rem;
+    gap: 0.85rem;
+    border-radius: 6px;
+  }
+
+  .card-inputs-box {
+    padding: 1.25rem 1rem;
+    border-radius: 6px;
+  }
+
+  /* Credit Card expiry & cvv stay side-by-side */
+  .card-inputs-box .form-row-2col {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.75rem !important;
+  }
+
+  /* Step 6: Confirmation */
+  .conf-ref-banner {
+    padding: 1.75rem 1rem;
+    border-radius: 6px;
+  }
+
+  .conf-ref-code {
+    font-size: clamp(1.4rem, 6vw, 2rem);
+    letter-spacing: 0.1em;
+  }
+
   .conf-details-bar {
     grid-template-columns: 1fr 1fr;
+    border-radius: 6px;
+    margin-bottom: 1.75rem;
   }
+
+  .conf-details-col {
+    padding: 0.95rem 1rem;
+  }
+
   .conf-details-col:nth-child(2) {
     border-right: none;
   }
+
   .conf-details-col:nth-child(1),
   .conf-details-col:nth-child(2) {
     border-bottom: 1px solid #D6CEC3;
+  }
+}
+
+@media (max-width: 400px) {
+  .conf-details-bar {
+    grid-template-columns: 1fr;
+  }
+
+  .conf-details-col {
+    border-right: none !important;
+    border-bottom: 1px solid #D6CEC3;
+  }
+
+  .conf-details-col:last-child {
+    border-bottom: none;
   }
 }
 
