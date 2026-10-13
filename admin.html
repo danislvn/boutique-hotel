@@ -50,23 +50,18 @@
     <div class="admin-nav-inner">
       <div class="admin-nav-left">
         <a href="index.html" class="admin-logo-link">
-          <div class="logo-circle" style="width: 36px; height: 36px; font-size: 0.95rem;">CA</div>
+          <div class="logo-circle" style="width: 38px; height: 38px; font-size: 1rem;">CA</div>
           <div class="logo-text">
-            <span class="logo-title" style="font-size: 1.15rem; color: #fff;">Casa Amara</span>
-            <span class="logo-subtitle" style="font-size: 0.6rem; color: var(--ca-gold);">MANAGEMENT PORTAL</span>
+            <span class="logo-title" style="font-size: 1.25rem;">Casa Amara</span>
+            <span class="logo-subtitle" style="font-size: 0.58rem;">MANAGEMENT PORTAL</span>
           </div>
         </a>
-        <span class="admin-badge-portal">PMS &bull; Channel Manager</span>
       </div>
 
       <div class="admin-nav-right">
-        <div class="admin-user-pill" id="userPill">
-          <span class="admin-user-dot"></span>
-          <span id="userNameDisplay">Manager</span>
-        </div>
         <a href="rooms.html" target="_blank" class="btn-nav-action">View Live Catalog ↗</a>
         <a href="booking.html" target="_blank" class="btn-nav-action">Booking Flow ↗</a>
-        <button type="button" class="btn-nav-action" id="btnSignOut">Sign Out</button>
+        <button type="button" class="btn-nav-action btn-nav-signout" id="btnSignOut">Sign Out</button>
       </div>
     </div>
   </header>
@@ -122,17 +117,22 @@
     <!-- Toolbar: Search & Filters -->
     <div class="admin-toolbar">
       <div class="toolbar-search-box">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        <input type="text" id="roomSearchInput" placeholder="Search rooms by name, beds, or specs...">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="roomSearchInput" placeholder="Search rooms by name, bedding, or specs...">
       </div>
       <div class="toolbar-filters">
-        <label for="roomStatusFilter" style="font-size: 0.82rem; font-weight: 600; color: var(--ca-text-muted);">Status:</label>
-        <select id="roomStatusFilter" class="filter-select">
-          <option value="all">All Rooms</option>
-          <option value="available">Available Only</option>
-          <option value="maintenance">Maintenance</option>
-          <option value="sold_out">Sold Out</option>
-        </select>
+        <label for="roomStatusFilter" class="filter-label">Status:</label>
+        <div class="custom-select-wrap">
+          <select id="roomStatusFilter" class="filter-select">
+            <option value="all">All Rooms</option>
+            <option value="available">Available Only</option>
+            <option value="maintenance">Under Maintenance</option>
+            <option value="sold_out">Sold Out</option>
+          </select>
+          <svg class="select-chevron-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
       </div>
     </div>
 

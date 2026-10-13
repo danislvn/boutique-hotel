@@ -246,19 +246,10 @@ document.addEventListener('DOMContentLoaded', () => {
               </div>
             </div>
 
-            <!-- Organized Inventory Status Card -->
+            <!-- Organized Inventory Status Card (Clean Text Only) -->
             <div class="admin-room-inventory-card">
-              <div class="inventory-card-header">
-                <span class="inv-label">Inventory Status</span>
-                <span class="inv-stats"><strong>${room.available_units || 0}</strong> of ${room.inventory_units} Available</span>
-              </div>
-              <div class="inventory-progress-track">
-                <div class="inventory-progress-fill" style="width: ${pctUnits}%"></div>
-              </div>
-              <div class="inventory-card-sub">
-                <span>Live Availability</span>
-                <span class="inv-pct">${pctUnits}% Free</span>
-              </div>
+              <span class="inv-label">Inventory Status</span>
+              <span class="inv-stats"><strong>${room.available_units || 0}</strong> of ${room.inventory_units} Available</span>
             </div>
 
             <!-- Organized 2-Tier Actions (Prevents Awkward Text Wrapping) -->
