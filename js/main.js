@@ -370,7 +370,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (modalPrice) modalPrice.textContent = room.price;
     if (modalBookBtn) {
-      modalBookBtn.href = `booking.html?room=${room.id}`;
+      const searchVals = getSearchValues();
+      modalBookBtn.href = `booking.html?room=${encodeURIComponent(room.id)}&checkin=${encodeURIComponent(searchVals.cin)}&checkout=${encodeURIComponent(searchVals.cout)}&guests=${encodeURIComponent(searchVals.guests)}`;
       modalBookBtn.textContent = 'Book this room';
     }
 
@@ -413,5 +414,176 @@ document.addEventListener('DOMContentLoaded', () => {
       closeRoomModal();
     }
   });
+
+  // =========================================================================
+  // 12. Floating Availability Search Bar Controller (rooms.html)
+  // =========================================================================
+  const searchCheckin = document.getElementById('searchCheckin');
+  const searchCheckout = document.getElementById('searchCheckout');
+  const searchGuests = document.getElementById('searchGuests');
+  const btnCheckAvailability = document.getElementById('btnCheckAvailability');
+  const searchCheckinPicker = document.getElementById('searchCheckinPicker');
+  const searchCheckoutPicker = document.getElementById('searchCheckoutPicker');
+  const btnPickCheckin = document.getElementById('btnPickCheckin');
+  const btnPickCheckout = document.getElementById('btnPickCheckout');
+
+  function getSearchValues() {
+    let cin = searchCheckin ? searchCheckin.value.trim() : '';
+    let cout = searchCheckout ? searchCheckout.value.trim() : '';
+    let guests = searchGuests ? searchGuests.value : '';
+
+    if (!cin) {
+      try { cin = sessionStorage.getItem('ca_search_checkin') || '10/27/2026'; } catch (e) { cin = '10/27/2026'; }
+    }
+    if (!cout) {
+      try { cout = sessionStorage.getItem('ca_search_checkout') || '10/30/2026'; } catch (e) { cout = '10/30/2026'; }
+    }
+    if (!guests) {
+      try { guests = sessionStorage.getItem('ca_search_guests') || '2'; } catch (e) { guests = '2'; }
+    }
+
+    return { cin, cout, guests };
+  }
+
+  function persistSearchValues() {
+    const vals = getSearchValues();
+    try {
+      sessionStorage.setItem('ca_search_checkin', vals.cin);
+      sessionStorage.setItem('ca_search_checkout', vals.cout);
+      sessionStorage.setItem('ca_search_guests', vals.guests);
+    } catch (e) {}
+    updateCatalogBookLinks();
+  }
+
+  function updateCatalogBookLinks() {
+    const { cin, cout, guests } = getSearchValues();
+    document.querySelectorAll('a[href*="booking.html"]').forEach(link => {
+      if (link.id === 'btnCheckAvailability') {
+        link.href = `booking.html?checkin=${encodeURIComponent(cin)}&checkout=${encodeURIComponent(cout)}&guests=${encodeURIComponent(guests)}`;
+        return;
+      }
+      try {
+        const rawHref = link.getAttribute('href');
+        if (!rawHref) return;
+        const url = new URL(rawHref, window.location.href);
+        const roomId = url.searchParams.get('room');
+        if (roomId) {
+          link.href = `booking.html?room=${encodeURIComponent(roomId)}&checkin=${encodeURIComponent(cin)}&checkout=${encodeURIComponent(cout)}&guests=${encodeURIComponent(guests)}`;
+        }
+      } catch (err) {}
+    });
+  }
+
+  // Restore saved search values from sessionStorage if present
+  try {
+    const savedCin = sessionStorage.getItem('ca_search_checkin');
+    const savedCout = sessionStorage.getItem('ca_search_checkout');
+    const savedGuests = sessionStorage.getItem('ca_search_guests');
+    if (searchCheckin && savedCin) searchCheckin.value = savedCin;
+    if (searchCheckout && savedCout) searchCheckout.value = savedCout;
+    if (searchGuests && savedGuests) searchGuests.value = savedGuests;
+  } catch (e) {}
+
+  // Date parsing helpers for input <-> datepicker synchronization
+  function parseSlashToIso(slashDate) {
+    if (!slashDate) return '';
+    const parts = slashDate.trim().split('/');
+    if (parts.length === 3) {
+      const m = parts[0].padStart(2, '0');
+      const d = parts[1].padStart(2, '0');
+      const y = parts[2];
+      return `${y}-${m}-${d}`;
+    }
+    return '';
+  }
+
+  function parseIsoToSlash(isoDate) {
+    if (!isoDate) return '';
+    const parts = isoDate.trim().split('-');
+    if (parts.length === 3) {
+      const y = parts[0];
+      const m = parts[1].padStart(2, '0');
+      const d = parts[2].padStart(2, '0');
+      return `${m}/${d}/${y}`;
+    }
+    return '';
+  }
+
+  if (searchCheckinPicker && searchCheckin) {
+    searchCheckinPicker.value = parseSlashToIso(searchCheckin.value);
+    btnPickCheckin?.addEventListener('click', () => {
+      searchCheckinPicker.value = parseSlashToIso(searchCheckin.value);
+      if (typeof searchCheckinPicker.showPicker === 'function') {
+        searchCheckinPicker.showPicker();
+      } else {
+        searchCheckinPicker.focus();
+      }
+    });
+    searchCheckinPicker.addEventListener('change', () => {
+      if (searchCheckinPicker.value) {
+        searchCheckin.value = parseIsoToSlash(searchCheckinPicker.value);
+        persistSearchValues();
+      }
+    });
+  }
+
+  if (searchCheckoutPicker && searchCheckout) {
+    searchCheckoutPicker.value = parseSlashToIso(searchCheckout.value);
+    btnPickCheckout?.addEventListener('click', () => {
+      searchCheckoutPicker.value = parseSlashToIso(searchCheckout.value);
+      if (typeof searchCheckoutPicker.showPicker === 'function') {
+        searchCheckoutPicker.showPicker();
+      } else {
+        searchCheckoutPicker.focus();
+      }
+    });
+    searchCheckoutPicker.addEventListener('change', () => {
+      if (searchCheckoutPicker.value) {
+        searchCheckout.value = parseIsoToSlash(searchCheckoutPicker.value);
+        persistSearchValues();
+      }
+    });
+  }
+
+  if (searchCheckin) {
+    searchCheckin.addEventListener('input', persistSearchValues);
+    searchCheckin.addEventListener('change', persistSearchValues);
+  }
+  if (searchCheckout) {
+    searchCheckout.addEventListener('input', persistSearchValues);
+    searchCheckout.addEventListener('change', persistSearchValues);
+  }
+  if (searchGuests) {
+    searchGuests.addEventListener('change', persistSearchValues);
+  }
+
+  if (btnCheckAvailability) {
+    btnCheckAvailability.addEventListener('click', (e) => {
+      e.preventDefault();
+      const { cin, cout, guests } = getSearchValues();
+      persistSearchValues();
+      window.location.href = `booking.html?checkin=${encodeURIComponent(cin)}&checkout=${encodeURIComponent(cout)}&guests=${encodeURIComponent(guests)}`;
+    });
+  }
+
+  // Intercept any booking.html link click on rooms page to ensure latest dates are appended
+  document.addEventListener('click', (e) => {
+    const bookLink = e.target.closest('a[href*="booking.html"]');
+    if (bookLink && bookLink.id !== 'btnCheckAvailability') {
+      const { cin, cout, guests } = getSearchValues();
+      try {
+        const url = new URL(bookLink.getAttribute('href'), window.location.href);
+        if (!url.searchParams.has('checkin')) url.searchParams.set('checkin', cin);
+        if (!url.searchParams.has('checkout')) url.searchParams.set('checkout', cout);
+        if (!url.searchParams.has('guests')) url.searchParams.set('guests', guests);
+        bookLink.href = `${url.pathname}?${url.searchParams.toString()}`;
+      } catch (err) {}
+    }
+  });
+
+  // Run initial link update if on rooms.html
+  if (searchCheckin || searchCheckout || searchGuests) {
+    persistSearchValues();
+  }
 });
 

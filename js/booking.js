@@ -28,9 +28,119 @@ document.addEventListener('DOMContentLoaded', () => {
     paymentMethod: 'card'
   };
 
-  // 1. Check URL parameters to pre-select room if coming from "Book now" button
+  // Date parsing and night calculation helpers
+  function parseDate(str) {
+    if (!str) return null;
+    const s = String(str).trim();
+    // MM/DD/YYYY format
+    const slashParts = s.split('/');
+    if (slashParts.length === 3) {
+      const m = parseInt(slashParts[0], 10) - 1;
+      const d = parseInt(slashParts[1], 10);
+      const y = parseInt(slashParts[2], 10);
+      const dt = new Date(y, m, d);
+      if (!isNaN(dt.getTime())) return dt;
+    }
+    // YYYY-MM-DD format
+    const isoParts = s.split('-');
+    if (isoParts.length === 3) {
+      const y = parseInt(isoParts[0], 10);
+      const m = parseInt(isoParts[1], 10) - 1;
+      const d = parseInt(isoParts[2], 10);
+      const dt = new Date(y, m, d);
+      if (!isNaN(dt.getTime())) return dt;
+    }
+    const dt = new Date(s);
+    return isNaN(dt.getTime()) ? null : dt;
+  }
+
+  function formatShortDate(date) {
+    if (!date) return '';
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+
+  function calculateNights(cinStr, coutStr) {
+    const cin = parseDate(cinStr);
+    const cout = parseDate(coutStr);
+    if (cin && cout) {
+      const diffMs = cout.getTime() - cin.getTime();
+      const nights = Math.round(diffMs / (1000 * 60 * 60 * 24));
+      return nights > 0 ? nights : 1;
+    }
+    return 3;
+  }
+
+  function parseSlashToIso(slashDate) {
+    if (!slashDate) return '';
+    const parts = String(slashDate).trim().split('/');
+    if (parts.length === 3) {
+      const m = parts[0].padStart(2, '0');
+      const d = parts[1].padStart(2, '0');
+      const y = parts[2];
+      return `${y}-${m}-${d}`;
+    }
+    return '';
+  }
+
+  function parseIsoToSlash(isoDate) {
+    if (!isoDate) return '';
+    const parts = String(isoDate).trim().split('-');
+    if (parts.length === 3) {
+      const y = parts[0];
+      const m = parts[1].padStart(2, '0');
+      const d = parts[2].padStart(2, '0');
+      return `${m}/${d}/${y}`;
+    }
+    return '';
+  }
+
+  // 1. Check URL parameters and sessionStorage to pre-fill Step 1 & select room
   const urlParams = new URLSearchParams(window.location.search);
   const paramRoom = urlParams.get('room');
+  let paramCheckin = urlParams.get('checkin');
+  let paramCheckout = urlParams.get('checkout');
+  let paramGuests = urlParams.get('guests');
+
+  // Fallback to session storage if not explicitly passed in URL
+  try {
+    if (!paramCheckin) paramCheckin = sessionStorage.getItem('ca_search_checkin');
+    if (!paramCheckout) paramCheckout = sessionStorage.getItem('ca_search_checkout');
+    if (!paramGuests) paramGuests = sessionStorage.getItem('ca_search_guests');
+  } catch (e) {}
+
+  // Auto-fill Step 1 inputs and booking state
+  const inCheckin = document.getElementById('inCheckin');
+  const inCheckout = document.getElementById('inCheckout');
+  const inGuests = document.getElementById('inGuests');
+
+  let wasPrefilled = false;
+  if (paramCheckin) {
+    bookingState.checkin = paramCheckin;
+    if (inCheckin) inCheckin.value = paramCheckin;
+    wasPrefilled = true;
+  }
+  if (paramCheckout) {
+    bookingState.checkout = paramCheckout;
+    if (inCheckout) inCheckout.value = paramCheckout;
+    wasPrefilled = true;
+  }
+  if (paramGuests) {
+    bookingState.guests = parseInt(paramGuests, 10) || 2;
+    if (inGuests) inGuests.value = bookingState.guests;
+    wasPrefilled = true;
+  }
+
+  // Visual confirmation glow on pre-filled inputs
+  if (wasPrefilled) {
+    [inCheckin, inCheckout, inGuests].forEach(el => {
+      if (el) {
+        el.classList.add('input-prefilled-highlight');
+        setTimeout(() => el.classList.remove('input-prefilled-highlight'), 2200);
+      }
+    });
+  }
+
+  // Room pre-selection
   if (paramRoom) {
     const roomMap = {
       'deluxe': { name: 'Deluxe Room', price: 8200, thumb: 'assets/images/deluxe-room.svg', tag: 'Deluxe room' },
@@ -45,6 +155,48 @@ document.addEventListener('DOMContentLoaded', () => {
       bookingState.room.thumb = roomMap[paramRoom].thumb;
       bookingState.room.tag = roomMap[paramRoom].tag;
     }
+  }
+
+  // Wire up Step 1 native date pickers
+  const inCheckinPicker = document.getElementById('inCheckinPicker');
+  const inCheckoutPicker = document.getElementById('inCheckoutPicker');
+  const btnPickInCheckin = document.getElementById('btnPickInCheckin');
+  const btnPickInCheckout = document.getElementById('btnPickInCheckout');
+
+  if (inCheckinPicker && inCheckin) {
+    inCheckinPicker.value = parseSlashToIso(inCheckin.value);
+    btnPickInCheckin?.addEventListener('click', () => {
+      inCheckinPicker.value = parseSlashToIso(inCheckin.value);
+      if (typeof inCheckinPicker.showPicker === 'function') {
+        inCheckinPicker.showPicker();
+      } else {
+        inCheckinPicker.focus();
+      }
+    });
+    inCheckinPicker.addEventListener('change', () => {
+      if (inCheckinPicker.value) {
+        inCheckin.value = parseIsoToSlash(inCheckinPicker.value);
+        updateCalculations();
+      }
+    });
+  }
+
+  if (inCheckoutPicker && inCheckout) {
+    inCheckoutPicker.value = parseSlashToIso(inCheckout.value);
+    btnPickInCheckout?.addEventListener('click', () => {
+      inCheckoutPicker.value = parseSlashToIso(inCheckout.value);
+      if (typeof inCheckoutPicker.showPicker === 'function') {
+        inCheckoutPicker.showPicker();
+      } else {
+        inCheckoutPicker.focus();
+      }
+    });
+    inCheckoutPicker.addEventListener('change', () => {
+      if (inCheckoutPicker.value) {
+        inCheckout.value = parseIsoToSlash(inCheckoutPicker.value);
+        updateCalculations();
+      }
+    });
   }
 
   // 2. Stepper Management
@@ -95,16 +247,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 3. Calculation & Display Updates
   function updateCalculations() {
-    // Dates & nights
-    bookingState.checkin = document.getElementById('inCheckin').value || '10/27/2026';
-    bookingState.checkout = document.getElementById('inCheckout').value || '10/30/2026';
-    bookingState.guests = document.getElementById('inGuests').value || 2;
-    bookingState.nights = 3; // Standard 3-night sample calculation
+    // Read current form inputs
+    const inCinEl = document.getElementById('inCheckin');
+    const inCoutEl = document.getElementById('inCheckout');
+    const inGuestsEl = document.getElementById('inGuests');
+
+    if (inCinEl) bookingState.checkin = inCinEl.value.trim() || '10/27/2026';
+    if (inCoutEl) bookingState.checkout = inCoutEl.value.trim() || '10/30/2026';
+    if (inGuestsEl) bookingState.guests = parseInt(inGuestsEl.value, 10) || 2;
+
+    bookingState.nights = calculateNights(bookingState.checkin, bookingState.checkout);
+
+    const cinDate = parseDate(bookingState.checkin);
+    const coutDate = parseDate(bookingState.checkout);
+    const cinFormatted = cinDate ? formatShortDate(cinDate) : bookingState.checkin;
+    const coutFormatted = coutDate ? formatShortDate(coutDate) : bookingState.checkout;
 
     // Update Step 2 summary text
     const step2DateSummary = document.getElementById('step2DateSummary');
     if (step2DateSummary) {
-      step2DateSummary.textContent = `Oct 27, 2026–Oct 30, 2026 · ${bookingState.guests} guests`;
+      step2DateSummary.textContent = `${cinFormatted}–${coutFormatted} · ${bookingState.guests} guest${bookingState.guests > 1 ? 's' : ''}`;
     }
 
     // Money calculations
@@ -125,8 +287,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const reviewRoomTitle = document.getElementById('reviewRoomTitle');
     if (reviewRoomTitle) reviewRoomTitle.textContent = bookingState.room.name;
 
+    const reviewCheckinTxt = document.getElementById('reviewCheckinTxt');
+    if (reviewCheckinTxt) reviewCheckinTxt.textContent = cinFormatted;
+
+    const reviewCheckoutTxt = document.getElementById('reviewCheckoutTxt');
+    if (reviewCheckoutTxt) reviewCheckoutTxt.textContent = coutFormatted;
+
+    const reviewStayMeta = document.getElementById('reviewStayMeta');
+    if (reviewStayMeta) {
+      reviewStayMeta.textContent = `${bookingState.nights} night${bookingState.nights > 1 ? 's' : ''} · ${bookingState.guests} guest${bookingState.guests > 1 ? 's' : ''} · 1 room`;
+    }
+
     const priceFormulaTxt = document.getElementById('priceFormulaTxt');
-    if (priceFormulaTxt) priceFormulaTxt.textContent = `${fmt(bookingState.room.price)} × ${bookingState.nights} nights`;
+    if (priceFormulaTxt) priceFormulaTxt.textContent = `${fmt(bookingState.room.price)} × ${bookingState.nights} night${bookingState.nights > 1 ? 's' : ''}`;
 
     const priceSubtotalTxt = document.getElementById('priceSubtotalTxt');
     if (priceSubtotalTxt) priceSubtotalTxt.textContent = fmt(subtotal);
@@ -138,10 +311,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (priceTotalTxt) priceTotalTxt.textContent = fmt(total);
 
     // Guest Info updates in Step 4
-    const firstName = document.getElementById('inFirstName').value || 'John';
-    const lastName = document.getElementById('inLastName').value || 'Doe';
-    const email = document.getElementById('inEmail').value || 'guest@example.com';
-    const phone = document.getElementById('inPhone').value || '+63 917 123 4567';
+    const firstName = document.getElementById('inFirstName')?.value || 'John';
+    const lastName = document.getElementById('inLastName')?.value || 'Doe';
+    const email = document.getElementById('inEmail')?.value || 'guest@example.com';
+    const phone = document.getElementById('inPhone')?.value || '+63 917 123 4567';
 
     bookingState.guest = { firstName, lastName, email, phone };
 
@@ -164,6 +337,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const payStayRoomTitle = document.getElementById('payStayRoomTitle');
     if (payStayRoomTitle) payStayRoomTitle.textContent = bookingState.room.name;
 
+    const payStayDates = document.getElementById('payStayDates');
+    if (payStayDates) {
+      payStayDates.textContent = `${cinFormatted}–${coutFormatted} · ${bookingState.nights} night${bookingState.nights > 1 ? 's' : ''}`;
+    }
+
     const payStaySubtotal = document.getElementById('payStaySubtotal');
     if (payStaySubtotal) payStaySubtotal.textContent = fmt(subtotal);
 
@@ -184,19 +362,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (confColGuest) confColGuest.textContent = `${firstName} ${lastName}`;
 
     const confColParty = document.getElementById('confColParty');
-    if (confColParty) confColParty.textContent = `${bookingState.guests} guests`;
+    if (confColParty) confColParty.textContent = `${bookingState.guests} guest${bookingState.guests > 1 ? 's' : ''}`;
 
     const confColCheckin = document.getElementById('confColCheckin');
-    if (confColCheckin) confColCheckin.textContent = 'Oct 27, 2026';
+    if (confColCheckin) confColCheckin.textContent = cinFormatted;
 
     const confColCheckout = document.getElementById('confColCheckout');
-    if (confColCheckout) confColCheckout.textContent = 'to Oct 30, 2026';
+    if (confColCheckout) confColCheckout.textContent = `to ${coutFormatted}`;
 
     const confColRoom = document.getElementById('confColRoom');
     if (confColRoom) confColRoom.textContent = bookingState.room.name;
 
     const confColNights = document.getElementById('confColNights');
-    if (confColNights) confColNights.textContent = `${bookingState.nights} nights`;
+    if (confColNights) confColNights.textContent = `${bookingState.nights} night${bookingState.nights > 1 ? 's' : ''}`;
 
     const confColPayStatus = document.getElementById('confColPayStatus');
     const confColPayAmount = document.getElementById('confColPayAmount');
@@ -208,6 +386,23 @@ document.addEventListener('DOMContentLoaded', () => {
       if (confColPayAmount) confColPayAmount.textContent = `${fmt(deposit30)} collected`;
     }
   }
+
+  // Real-time calculation synchronization when inputs change
+  ['inCheckin', 'inCheckout', 'inGuests'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('input', updateCalculations);
+      el.addEventListener('change', updateCalculations);
+    }
+  });
+
+  ['inFirstName', 'inLastName', 'inEmail', 'inPhone'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('input', updateCalculations);
+      el.addEventListener('change', updateCalculations);
+    }
+  });
 
   // 4. Room Card Selection
   function setupRoomCardEvents() {

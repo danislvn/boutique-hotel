@@ -10,7 +10,7 @@
     "check_out": "10/30/2026",
     "nights": 3,
     "guests": 2,
-    "total_amount": 27552.0,
+    "total_amount": 27552,
     "payment_status": "Deposit paid",
     "special_requests": "High floor garden view requested."
   },
@@ -25,7 +25,7 @@
     "check_out": "11/05/2026",
     "nights": 3,
     "guests": 2,
-    "total_amount": 38640.0,
+    "total_amount": 38640,
     "payment_status": "Deposit paid",
     "special_requests": "Late arrival around 8:00 PM."
   },
@@ -40,7 +40,7 @@
     "check_out": "11/14/2026",
     "nights": 4,
     "guests": 4,
-    "total_amount": 43904.0,
+    "total_amount": 43904,
     "payment_status": "Pay at hotel",
     "special_requests": "Need extra pillows and baby cot."
   },
@@ -55,8 +55,23 @@
     "check_out": "12/26/2026",
     "nights": 6,
     "guests": 2,
-    "total_amount": 97440.0,
+    "total_amount": 97440,
     "payment_status": "Deposit paid",
     "special_requests": "Honeymoon arrangement with champagne."
+  },
+  {
+    "reference_id": "CA-AJ039I-8SX",
+    "guest_name": "John Doe",
+    "email": "guest@example.com",
+    "phone": "+63 917 123 4567",
+    "room_type_id": "deluxe",
+    "room_name": "Deluxe Room",
+    "check_in": "10/27/2026",
+    "check_out": "10/30/2026",
+    "nights": 3,
+    "guests": 2,
+    "total_amount": 27552,
+    "payment_status": "Pay at hotel",
+    "special_requests": ""
   }
 ]

@@ -1721,6 +1721,63 @@ button {
   color: #9C9184;
   flex-shrink: 0;
   margin-left: 0.5rem;
+  transition: color var(--transition-fast);
+}
+
+.native-date-hidden {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.search-calendar-btn {
+  background: transparent;
+  border: none;
+  padding: 4px;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: inherit;
+  border-radius: var(--radius-sm);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.search-calendar-btn:hover {
+  background-color: rgba(197, 160, 110, 0.12);
+}
+
+.search-calendar-btn:hover .search-field-icon-right,
+.search-calendar-btn:hover .input-icon-right {
+  color: var(--ca-gold);
+}
+
+.search-calendar-btn:focus-visible {
+  outline: 2px solid var(--ca-gold);
+}
+
+@keyframes prefillGlow {
+  0% {
+    box-shadow: 0 0 0 3px rgba(197, 160, 110, 0.5);
+    border-color: var(--ca-gold);
+  }
+  50% {
+    box-shadow: 0 0 0 5px rgba(197, 160, 110, 0.25);
+    border-color: var(--ca-gold);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(197, 160, 110, 0);
+  }
+}
+
+.input-prefilled-highlight {
+  animation: prefillGlow 2.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .search-action-btn-wrapper {
