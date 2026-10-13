@@ -101,49 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 2800);
   }
 
-  // 5. Kinetic Typography Font Stretching Wave for "Casa Amara"
-  const giantFooter = document.querySelector('.giant-footer-title');
-  const stretchChars = document.querySelectorAll('.stretch-char');
-
-  if (giantFooter && stretchChars.length > 0) {
-    giantFooter.addEventListener('mousemove', (e) => {
-      const mouseX = e.clientX;
-      const mouseY = e.clientY;
-
-      stretchChars.forEach(char => {
-        const rect = char.getBoundingClientRect();
-        const charCenterX = rect.left + rect.width / 2;
-        const charCenterY = rect.top + rect.height / 2;
-
-        const distX = Math.abs(mouseX - charCenterX);
-        const distY = Math.abs(mouseY - charCenterY);
-        const distance = Math.hypot(distX, distY);
-
-        // Maximum interaction radius: 220px
-        const maxDist = 220;
-        if (distance < maxDist) {
-          const intensity = 1 - (distance / maxDist);
-          // Scale vertical from 1.0 up to 1.62
-          const scaleY = 1 + (intensity * 0.62);
-          const scaleX = 1 + (intensity * 0.14);
-          char.style.transform = `scaleY(${scaleY.toFixed(3)}) scaleX(${scaleX.toFixed(3)})`;
-          char.style.color = intensity > 0.6 ? '#FFF3DD' : '#DFC8A5';
-        } else {
-          char.style.transform = '';
-          char.style.color = '';
-        }
-      });
-    });
-
-    giantFooter.addEventListener('mouseleave', () => {
-      stretchChars.forEach(char => {
-        char.style.transform = '';
-        char.style.color = '';
-      });
-    });
-  }
-
-  // 6. Dynamic Catalog Synchronization for rooms.html
+  // 5. Dynamic Catalog Synchronization for rooms.html
   const roomsCatalogGrid = document.querySelector('.rooms-catalog-grid');
   if (roomsCatalogGrid) {
     fetch('/api/rooms')

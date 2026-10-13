@@ -1398,8 +1398,8 @@ button {
 .footer-left-col {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 3.5rem;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .footer-concierge-pill {
@@ -1526,11 +1526,12 @@ button {
 }
 
 /* --------------------------------------------------------------------------
-   13. Giant Display Text with Kinetic Font Stretching Animation
+   13. Giant Display Text in Luxury Italic Serif
    -------------------------------------------------------------------------- */
 .giant-footer-title {
   font-family: var(--font-serif);
   font-size: clamp(3.8rem, 14vw, 14.8rem);
+  font-style: italic;
   font-weight: 400;
   line-height: 0.84;
   letter-spacing: -0.02em;
@@ -1539,10 +1540,11 @@ button {
   justify-content: space-between;
   align-items: flex-end;
   user-select: none;
-  cursor: pointer;
+  cursor: default;
   margin-top: 3.5rem;
   margin-bottom: -1rem;
   padding-bottom: 0;
+  padding-right: 0.12em;
   white-space: nowrap;
   width: 100%;
 }
@@ -1550,26 +1552,7 @@ button {
 .stretch-word {
   display: inline-flex;
   align-items: flex-end;
-}
-
-.stretch-char {
-  display: inline-block;
-  transform-origin: bottom center;
-  transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2), color 0.3s ease, text-shadow 0.3s ease;
-  will-change: transform;
-}
-
-/* Base stretch on container hover */
-.giant-footer-title:hover .stretch-char {
-  color: #D8BD92;
-  transform: scaleY(1.18);
-}
-
-/* Active stretch on individual letter hover */
-.stretch-char:hover {
-  transform: scaleY(1.52) scaleX(1.14) !important;
-  color: #FFF2D6 !important;
-  text-shadow: 0 0 35px rgba(223, 200, 165, 0.55);
+  font-style: italic;
 }
 
 .stretch-space {
