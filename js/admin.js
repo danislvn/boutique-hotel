@@ -182,12 +182,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     roomsContainer.innerHTML = filtered.map(room => {
-      const statusClass = room.status === 'available' ? 'status-badge-available' :
-                          room.status === 'maintenance' ? 'status-badge-maintenance' : 'status-badge-soldout';
-      const statusText = room.status === 'available' ? '● Available' :
-                         room.status === 'maintenance' ? '▲ Maintenance' : '✕ Sold Out';
+      const isAvail = room.status === 'available';
+      const isMaint = room.status === 'maintenance';
+      const statusClass = isAvail ? 'status-badge-available' :
+                          isMaint ? 'status-badge-maintenance' : 'status-badge-soldout';
+      const statusText = isAvail ? '● Available' :
+                         isMaint ? '▲ Maintenance' : '✕ Sold Out';
 
       const pctUnits = room.inventory_units > 0 ? Math.round(((room.available_units || 0) / room.inventory_units) * 100) : 0;
+      
+      // Clean size to only meter squared
+      const cleanSize = (room.room_size || '40 m²').split('/')[0].trim();
 
       return `
         <div class="admin-room-card" data-room-id="${room.id}">
@@ -196,36 +201,71 @@ document.addEventListener('DOMContentLoaded', () => {
             ${room.badge ? `<span class="room-badge-overlay">${room.badge}</span>` : ''}
             <span class="room-status-badge ${statusClass}">${statusText}</span>
           </div>
+          
           <div class="admin-room-content">
-            <div class="admin-room-title-row">
-              <h3 class="admin-room-name">${room.name}</h3>
-              <div class="admin-room-rate">₱${Number(room.rate_per_night).toLocaleString()} <span>/ night</span></div>
-            </div>
-            <p class="admin-room-tagline">${room.tagline || 'Comfortable boutique accommodation.'}</p>
-            
-            <div class="admin-room-specs">
-              <span class="spec-item">👥 Up to ${room.max_guests} guests</span>
-              <span class="spec-item">🛏 ${room.bed_config || 'King bed'}</span>
-              <span class="spec-item">📐 ${room.room_size || '40 m²'}</span>
-              <span class="spec-item">🌿 ${room.view || 'Courtyard'}</span>
+            <!-- Header: Title & Nightly Rate -->
+            <div class="admin-room-header">
+              <div class="admin-room-title-block">
+                <h3 class="admin-room-name">${room.name}</h3>
+                ${room.featured ? '<span class="room-featured-tag">⭐ Featured on Home</span>' : ''}
+              </div>
+              <div class="admin-room-rate-block">
+                <span class="rate-amount">₱${Number(room.rate_per_night).toLocaleString()}</span>
+                <span class="rate-period">/ night</span>
+              </div>
             </div>
 
-            <div class="admin-room-inventory-bar">
-              <div class="inventory-meta">
-                <span>Inventory Units: ${room.available_units || 0} / ${room.inventory_units} Available</span>
-                <span>${pctUnits}%</span>
+            <!-- Tagline -->
+            <p class="admin-room-tagline">${room.tagline || 'Boutique accommodations tailored for serenity and luxury.'}</p>
+            
+            <!-- Organized 2x2 Specs Matrix -->
+            <div class="admin-room-specs-matrix">
+              <div class="spec-matrix-cell" title="Maximum Capacity">
+                <span class="matrix-icon">👥</span>
+                <span class="matrix-text">Up to ${room.max_guests} Guests</span>
+              </div>
+              <div class="spec-matrix-cell" title="Bed Configuration">
+                <span class="matrix-icon">🛏</span>
+                <span class="matrix-text">${room.bed_config || '1 King Bed'}</span>
+              </div>
+              <div class="spec-matrix-cell" title="Room Dimensions">
+                <span class="matrix-icon">📐</span>
+                <span class="matrix-text">${cleanSize}</span>
+              </div>
+              <div class="spec-matrix-cell" title="Room View">
+                <span class="matrix-icon">🌿</span>
+                <span class="matrix-text">${room.view || 'Courtyard View'}</span>
+              </div>
+            </div>
+
+            <!-- Organized Inventory Status Card -->
+            <div class="admin-room-inventory-card">
+              <div class="inventory-card-header">
+                <span class="inv-label">Inventory Status</span>
+                <span class="inv-stats"><strong>${room.available_units || 0}</strong> of ${room.inventory_units} Available</span>
               </div>
               <div class="inventory-progress-track">
                 <div class="inventory-progress-fill" style="width: ${pctUnits}%"></div>
               </div>
+              <div class="inventory-card-sub">
+                <span>Live Availability</span>
+                <span class="inv-pct">${pctUnits}% Free</span>
+              </div>
             </div>
 
-            <div class="admin-room-actions">
-              <button class="btn-card-action btn-edit-room" onclick="window.editRoom('${room.id}')">✏ Edit Details</button>
-              <button class="btn-card-action btn-toggle-status" onclick="window.toggleRoomStatus('${room.id}')">
-                ${room.status === 'available' ? 'Set Maintenance' : 'Set Available'}
+            <!-- Organized 2-Tier Actions (Prevents Awkward Text Wrapping) -->
+            <div class="admin-room-actions-organized">
+              <button class="btn-card-primary" onclick="window.editRoom('${room.id}')">
+                ✏ Edit Room Details
               </button>
-              <button class="btn-card-action btn-delete-room" onclick="window.deleteRoom('${room.id}', '${room.name}')">🗑 Unpublish</button>
+              <div class="admin-room-actions-row">
+                <button class="btn-card-secondary ${isMaint ? 'is-in-maintenance' : ''}" onclick="window.toggleRoomStatus('${room.id}')">
+                  ${isAvail ? '⏸ Set Maintenance' : '✓ Set Available'}
+                </button>
+                <button class="btn-card-danger" onclick="window.deleteRoom('${room.id}', '${room.name}')">
+                  🗑 Unpublish
+                </button>
+              </div>
             </div>
           </div>
         </div>

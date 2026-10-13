@@ -418,18 +418,24 @@
 }
 
 .admin-room-content {
-  padding: 1.5rem;
+  padding: 1.4rem;
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
-.admin-room-title-row {
+.admin-room-header {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: flex-start;
   gap: 0.75rem;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.45rem;
+}
+
+.admin-room-title-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
 .admin-room-name {
@@ -437,122 +443,241 @@
   font-size: 1.55rem;
   font-weight: 500;
   color: var(--ca-espresso);
+  line-height: 1.15;
 }
 
-.admin-room-rate {
-  font-family: var(--font-sans);
-  font-size: 1.15rem;
+.room-featured-tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.7rem;
   font-weight: 700;
-  color: var(--ca-espresso);
+  color: #8A6D3B;
+  background: rgba(181, 154, 114, 0.16);
+  border: 1px solid rgba(181, 154, 114, 0.35);
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  width: fit-content;
+  letter-spacing: 0.02em;
+}
+
+.admin-room-rate-block {
+  text-align: right;
   white-space: nowrap;
 }
 
-.admin-room-rate span {
-  font-size: 0.75rem;
-  font-weight: 400;
+.rate-amount {
+  font-family: var(--font-sans);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--ca-espresso);
+  display: block;
+  line-height: 1.1;
+}
+
+.rate-period {
+  font-size: 0.74rem;
+  font-weight: 500;
   color: var(--ca-text-muted);
 }
 
 .admin-room-tagline {
-  font-size: 0.88rem;
+  font-size: 0.84rem;
   color: var(--ca-text-muted);
   line-height: 1.45;
   margin-bottom: 1rem;
 }
 
-.admin-room-specs {
+/* Organized 2x2 Specs Matrix */
+.admin-room-specs-matrix {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-bottom: 1.15rem;
+}
+
+.spec-matrix-cell {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.85rem;
-  margin-bottom: 1.25rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--ca-border-subtle);
-  font-size: 0.82rem;
-  color: var(--ca-charcoal);
-}
-
-.spec-item {
-  display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.45rem;
+  background: var(--ca-off-white);
+  border: 1px solid var(--ca-border-subtle);
+  border-radius: 6px;
+  padding: 0.45rem 0.6rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ca-charcoal);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
-.admin-room-inventory-bar {
+.spec-matrix-cell:hover {
+  border-color: var(--ca-gold);
+  background: #ffffff;
+}
+
+.matrix-icon {
+  font-size: 0.95rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.matrix-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Organized Inventory Status Card */
+.admin-room-inventory-card {
+  background: var(--ca-off-white);
+  border: 1px solid var(--ca-border-subtle);
+  border-radius: 8px;
+  padding: 0.8rem 0.95rem;
   margin-bottom: 1.25rem;
 }
 
-.inventory-meta {
+.inventory-card-header {
   display: flex;
   justify-content: space-between;
-  font-size: 0.8rem;
-  margin-bottom: 0.35rem;
-  font-weight: 600;
+  align-items: center;
+  font-size: 0.78rem;
+  margin-bottom: 0.45rem;
+}
+
+.inv-label {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  font-size: 0.71rem;
+  color: var(--ca-text-muted);
+}
+
+.inv-stats {
+  font-size: 0.82rem;
+  color: var(--ca-espresso);
+}
+
+.inv-stats strong {
+  font-weight: 700;
+  color: var(--ca-gold-hover);
 }
 
 .inventory-progress-track {
-  height: 6px;
-  background-color: var(--ca-border-subtle);
+  height: 7px;
+  background-color: #E2DBD2;
   border-radius: 999px;
   overflow: hidden;
+  margin-bottom: 0.35rem;
 }
 
 .inventory-progress-fill {
   height: 100%;
-  background-color: var(--ca-gold);
+  background: linear-gradient(90deg, var(--ca-gold), #C8B08D);
   border-radius: 999px;
+  transition: width 0.4s ease;
 }
 
-.admin-room-actions {
+.inventory-card-sub {
   display: flex;
+  justify-content: space-between;
+  font-size: 0.73rem;
+  color: var(--ca-text-muted);
+}
+
+.inv-pct {
+  font-weight: 600;
+  color: var(--ca-espresso);
+}
+
+/* Organized 2-Tier Actions Controls */
+.admin-room-actions-organized {
+  display: flex;
+  flex-direction: column;
   gap: 0.5rem;
   margin-top: auto;
   padding-top: 1rem;
   border-top: 1px solid var(--ca-border-subtle);
 }
 
-.btn-card-action {
+.btn-card-primary {
+  width: 100%;
+  padding: 0.65rem 1rem;
+  background-color: var(--ca-espresso);
+  color: #ffffff;
+  border: 1px solid var(--ca-espresso);
+  border-radius: 6px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  transition: all 0.2s ease;
+  font-family: var(--font-sans);
+}
+
+.btn-card-primary:hover {
+  background-color: var(--ca-gold);
+  border-color: var(--ca-gold);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(181, 154, 114, 0.25);
+}
+
+.admin-room-actions-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-card-secondary {
   flex: 1;
-  padding: 0.55rem 0.75rem;
-  border-radius: 4px;
-  font-size: 0.82rem;
+  padding: 0.55rem 0.65rem;
+  background-color: #ffffff;
+  color: var(--ca-charcoal);
+  border: 1px solid var(--ca-border-subtle);
+  border-radius: 6px;
+  font-size: 0.78rem;
   font-weight: 600;
   cursor: pointer;
   text-align: center;
-  transition: var(--transition-smooth);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: all 0.2s ease;
+  font-family: var(--font-sans);
 }
 
-.btn-edit-room {
-  background-color: var(--ca-warm-beige-light);
-  color: var(--ca-espresso);
-  border: 1px solid var(--ca-border-subtle);
+.btn-card-secondary:hover {
+  background-color: var(--ca-off-white);
+  border-color: #D4CBC0;
 }
 
-.btn-edit-room:hover {
-  background-color: var(--ca-gold);
-  color: #fff;
-  border-color: var(--ca-gold);
+.btn-card-secondary.is-in-maintenance {
+  background-color: #FEFCF6;
+  border-color: #E2C088;
+  color: #975A16;
 }
 
-.btn-toggle-status {
-  background-color: #fff;
-  color: var(--ca-charcoal);
-  border: 1px solid var(--ca-border-subtle);
-}
-
-.btn-toggle-status:hover {
-  background-color: #F7FAFC;
-  border-color: #CBD5E0;
-}
-
-.btn-delete-room {
-  background-color: #FFF5F5;
+.btn-card-danger {
+  flex: 1;
+  padding: 0.55rem 0.65rem;
+  background-color: #FFF8F8;
   color: #C53030;
-  border: 1px solid #FEB2B2;
+  border: 1px solid #FED7D7;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  font-family: var(--font-sans);
 }
 
-.btn-delete-room:hover {
+.btn-card-danger:hover {
   background-color: #C53030;
-  color: #fff;
+  color: #ffffff;
+  border-color: #C53030;
+  box-shadow: 0 3px 8px rgba(197, 48, 48, 0.2);
 }
 
 /* Modal Window for Add/Edit Room */
